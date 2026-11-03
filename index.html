@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#153c31">
+<title>Retróscena · Test scanner barcode</title>
+<style>
+:root{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#18352b;background:#f3f5f2}*{box-sizing:border-box}body{margin:0}main{max-width:650px;margin:auto;padding:18px 16px 45px}header{background:#153c31;color:#fff;border-radius:18px;padding:22px;margin-bottom:16px}h1{font-size:24px;margin:0}header p{margin:8px 0 0;color:#cbdcd3;font-size:14px}.panel{background:white;border:1px solid #dfe6e1;border-radius:16px;padding:16px;margin-bottom:14px}button{border:0;border-radius:12px;padding:15px;font-weight:700;font-size:16px;cursor:pointer;width:100%;margin:5px 0}button:disabled{opacity:.5}.main{background:#153c31;color:#fff}.alt{background:#e6eee8;color:#153c31}.danger{background:#f4e7e7;color:#8a2828}#reader{width:100%;overflow:hidden;border-radius:12px;background:#172a22;min-height:130px}#reader video{object-fit:cover}#status{white-space:pre-wrap;overflow-wrap:anywhere;font-size:14px;line-height:1.5;margin:10px 0}#result{font-size:27px;font-weight:800;letter-spacing:1px;overflow-wrap:anywhere}small{color:#66776c}.success{color:#11683a}.error{color:#a12828}.label{font-size:13px;font-weight:700;margin-bottom:6px}.hidden{display:none}#photo{position:absolute;width:1px;height:1px;opacity:0}.hint{font-size:13px;color:#5b6c60;line-height:1.45}.pill{display:inline-block;border-radius:20px;background:#e6eee8;padding:5px 10px;font-size:12px;margin:5px 0 10px}
+</style>
+<script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+</head>
+<body><main>
+<header><h1>RETRÓSCENA</h1><p>SMART MAGAZZINO · TEST SCANNER INDIPENDENTE</p></header>
+<section class="panel">
+<div class="pill">Solo lettura · Nessun movimento di magazzino</div>
+<button id="start" class="main">📷 AVVIA SCANSIONE IN DIRETTA</button>
+<button id="stop" class="danger hidden">FERMA FOTOCAMERA</button>
+<div id="reader"></div>
+<div id="status" role="status" aria-live="polite">Pronto. Premi “Avvia scansione in diretta”.</div>
+<p class="hint">Inquadra il codice a barre orizzontalmente, a circa 10–20 cm, con buona luce. La fotocamera si fermerà automaticamente alla prima lettura valida.</p>
+</section>
+<section class="panel">
+<div class="label">Barcode riconosciuto</div>
+<div id="result">—</div>
+<button id="copy" class="alt" disabled>COPIA CODICE</button>
+<button id="again" class="alt" disabled>SCANSIONA UN ALTRO PRODOTTO</button>
+</section>
+<section class="panel">
+<div class="label">Alternativa: leggi da una fotografia</div>
+<p class="hint">Se Safari non consente il video in diretta, usa questa funzione. La fotografia viene analizzata sul dispositivo.</p>
+<button id="take" class="alt">SCATTA FOTO DEL BARCODE</button>
+<input id="photo" type="file" accept="image/*" capture="environment">
+</section>
+<small>Pagina di collaudo gratuita. Non invia immagini o dati a Google Fogli. Richiede HTTPS e connessione Internet per caricare la libreria di scansione.</small>
+</main>
+<script>
+'use strict';
+const $=id=>document.getElementById(id);
+let scanner=null, running=false, starting=false, decoded='', lastRead=0, photoBusy=false;
+const formats=()=>[Html5QrcodeSupportedFormats.EAN_13,Html5QrcodeSupportedFormats.EAN_8,Html5QrcodeSupportedFormats.UPC_A,Html5QrcodeSupportedFormats.UPC_E,Html5QrcodeSupportedFormats.CODE_128,Html5QrcodeSupportedFormats.CODE_39,Html5QrcodeSupportedFormats.ITF];
+function status(s,kind=''){$('status').textContent=s;$('status').className=kind;}
+function ready(){return typeof Html5Qrcode!=='undefined'&&typeof Html5QrcodeSupportedFormats!=='undefined'}
+function setControls(){ $('start').disabled=starting||running;$('stop').classList.toggle('hidden',!running);$('again').disabled=!decoded||starting||running;$('copy').disabled=!decoded; }
+function gotCode(raw){const code=String(raw||'').trim();if(!code||Date.now()-lastRead<1200)return;lastRead=Date.now();decoded=code;$('result').textContent=code;status('✓ Barcode riconosciuto. Ora possiamo verificare il prossimo prodotto.','success');setControls();if(navigator.vibrate)navigator.vibrate(100);if(running)stopCamera(false);}
+async function stopCamera(announce=true){if(!scanner||!running)return;running=false;setControls();try{await scanner.stop()}catch(e){if(announce)status('Fotocamera fermata con avviso: '+(e.message||e),'error')}if(announce)status('Fotocamera fermata.');setControls()}
+async function startCamera(){if(starting||running)return;if(!window.isSecureContext){status('Questa pagina deve essere aperta tramite HTTPS, non come file locale.','error');return}if(!ready()){status('Libreria scanner non caricata. Controlla Internet e ricarica la pagina.','error');return}starting=true;setControls();status('Richiesta autorizzazione fotocamera…');try{if(!scanner)scanner=new Html5Qrcode('reader',{formatsToSupport:formats(),verbose:false});const cfg={fps:12,qrbox:(w,h)=>({width:Math.max(150,Math.min(Math.floor(w*.9),420)),height:Math.max(90,Math.min(Math.floor(h*.5),170))}),aspectRatio:1.777778,disableFlip:true};await scanner.start({facingMode:'environment'},cfg,gotCode,()=>{})running=true;status('Fotocamera attiva. Inquadra il barcode.');}catch(e){running=false;status('Impossibile avviare la fotocamera.\n'+(e.name||'Errore')+': '+(e.message||String(e))+'\n\nControlla il permesso Fotocamera di Safari e assicurati di essere su HTTPS.','error')}finally{starting=false;setControls()}}
+async function scanPhoto(file){if(!file)return;if(!ready()){status('Libreria scanner non caricata.','error');return}if(running)await stopCamera(false);status('Analisi della fotografia…');let temp=null;try{if(scanner){try{scanner.clear()}catch(e){} scanner=null;}temp=new Html5Qrcode('reader',{formatsToSupport:formats(),verbose:false});const result=await temp.scanFile(file,true);gotCode(result)}catch(e){status('La fotografia non è stata riconosciuta.\n'+(e.message||String(e))+'\nProva la scansione in diretta oppure una foto più ravvicinata.','error')}finally{try{if(temp)temp.clear()}catch(e){} scanner=null;}}
+$('start').addEventListener('click',startCamera);$('stop').addEventListener('click',()=>stopCamera());$('again').addEventListener('click',()=>{decoded='';$('result').textContent='—';setControls();startCamera()});$('copy').addEventListener('click',async()=>{try{await navigator.clipboard.writeText(decoded);status('Codice copiato: '+decoded,'success')}catch(e){status('Codice: '+decoded+' — selezionalo e copialo manualmente.','error')}});$('take').addEventListener('click',()=>$('photo').click());$('photo').addEventListener('change',async function(){const f=this.files&&this.files[0];this.value='';if(f)await scanPhoto(f)});document.addEventListener('visibilitychange',()=>{if(document.hidden&&running)stopCamera(false)});setControls();
+</script></body></html>
