@@ -5,128 +5,101 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#153c31">
-<title>Retróscena · Scanner 1.0.3</title>
-
+<title>Retróscena Scanner 1.0.6</title>
 <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
-
 <style>
 :root {
-  font-family: -apple-system, BlinkMacSystemFont,
-    "Segoe UI", sans-serif;
-  color: #18352b;
-  background: #f3f5f2;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  background:#f4f6f3;
+  color:#1b332b;
 }
-* { box-sizing: border-box; }
-body { margin: 0; }
-main {
-  max-width: 650px;
-  margin: auto;
-  padding: 18px 16px 45px;
-}
+* {box-sizing:border-box}
+body {margin:0}
+main {max-width:700px;margin:auto;padding:16px 14px 60px}
 header {
-  background: #153c31;
-  color: #fff;
-  border-radius: 18px;
-  padding: 22px;
-  margin-bottom: 16px;
+  background:#153c31;color:white;padding:23px 20px;
+  border-radius:18px;margin-bottom:14px;
 }
-h1 { font-size: 24px; margin: 0; }
-header p {
-  margin: 8px 0 0;
-  color: #cbdcd3;
-  font-size: 14px;
-}
+h1 {font-size:27px;margin:0}
+header p {font-size:13px;color:#cadbd1;margin:7px 0 0}
 .panel {
-  background: #fff;
-  border: 1px solid #dfe6e1;
-  border-radius: 16px;
-  padding: 16px;
-  margin-bottom: 14px;
+  background:white;border:1px solid #dae4dc;
+  border-radius:16px;padding:16px;margin-bottom:14px;
 }
+h2 {font-size:17px;margin:2px 0 12px}
+.info {
+  font-size:13px;color:#566d60;line-height:1.5;
+}
+label {
+  display:block;font-weight:700;font-size:13px;margin:12px 0 6px;
+}
+button,input,select {font:inherit}
 button {
-  display: block;
-  width: 100%;
-  border: 0;
-  border-radius: 12px;
-  padding: 15px;
-  font-weight: 700;
-  font-size: 16px;
-  cursor: pointer;
-  margin: 7px 0;
+  display:block;width:100%;padding:14px 11px;
+  border-radius:11px;border:0;font-size:15px;
+  font-weight:700;cursor:pointer;margin:7px 0;
 }
-button:disabled { opacity: .5; }
-.main { background: #153c31; color: #fff; }
-.alt { background: #e6eee8; color: #153c31; }
-.danger { background: #f4e7e7; color: #8a2828; }
+button:disabled {opacity:.48}
+.primary {background:#153c31;color:white}
+.secondary {background:#e5f0e9;color:#153c31}
+.warning {background:#f8e8e6;color:#9d3029}
 .mode {
-  background: #e6eee8;
-  color: #153c31;
-  border: 2px solid transparent;
+  background:#e7eeea;color:#164333;
+  border:2px solid transparent;
 }
-.mode.selected {
-  border-color: #153c31;
-  background: #d3e8dc;
+.mode.selected {background:#d3e9db;border-color:#164333}
+.op {
+  background:#e8ede9;color:#244235;
+  border:2px solid #dfe8e1;
 }
+.op.selected {
+  background:#164634;color:white;border-color:#164634;
+}
+input[type=text],input[type=number],select {
+  width:100%;border:1px solid #b7c6bc;border-radius:10px;
+  padding:13px;background:white;font-size:16px;
+}
+input[type=range] {width:100%;accent-color:#153c31}
+.grid2 {display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.grid2 button {margin:2px 0}
 #reader {
-  width: 100%;
-  overflow: hidden;
-  border-radius: 12px;
-  background: #172a22;
-  min-height: 130px;
+  width:100%;overflow:hidden;border-radius:12px;
+  background:#172d26;min-height:128px;
 }
-#reader video { object-fit: cover; }
+#reader video {object-fit:cover}
 #status {
-  white-space: pre-wrap;
-  overflow-wrap: anywhere;
-  font-size: 14px;
-  line-height: 1.5;
-  margin: 12px 0;
+  white-space:pre-wrap;overflow-wrap:anywhere;
+  line-height:1.45;margin:13px 0;font-size:14px;
 }
-#result {
-  font-size: 27px;
-  font-weight: 800;
-  letter-spacing: 1px;
-  overflow-wrap: anywhere;
-  padding: 8px 0 14px;
+#barcodeResult {
+  font-size:27px;font-weight:800;overflow-wrap:anywhere;
 }
-.success { color: #11683a; }
-.error { color: #a12828; }
-.label {
-  font-size: 13px;
-  font-weight: 700;
-  margin: 8px 0 6px;
+#productName {
+  font-size:18px;font-weight:750;margin:8px 0;
 }
-.hidden { display: none !important; }
-.hint {
-  font-size: 13px;
-  color: #5b6c60;
-  line-height: 1.45;
-}
-.pill {
-  display: inline-block;
-  border-radius: 20px;
-  background: #e6eee8;
-  padding: 5px 10px;
-  font-size: 12px;
-  margin: 5px 0 10px;
+#meta,#mappingHint,#lastTest {
+  font-size:13px;color:#627769;
+  line-height:1.5;white-space:pre-wrap;
 }
 #zoomPanel {
-  background: #edf4ef;
-  padding: 12px;
-  border-radius: 10px;
-  margin: 12px 0;
-}
-#zoom {
-  width: 100%;
-  accent-color: #153c31;
+  padding:12px;background:#eaf2ed;
+  border-radius:11px;margin-top:10px;
 }
 #photo {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  opacity: 0;
+  position:absolute;width:1px;height:1px;opacity:0;
 }
-small { color: #66776c; }
+.note {
+  padding:12px;background:#edf5ee;
+  border-radius:10px;font-size:13px;line-height:1.45;
+}
+.hidden {display:none!important}
+.ok {color:#197448}
+.error {color:#b42318}
+.badge {
+  display:inline-block;padding:5px 10px;border-radius:20px;
+  background:#e7efea;font-size:12px;font-weight:700;
+}
+small {font-size:12px;color:#66776c;line-height:1.5}
 </style>
 </head>
 
@@ -135,148 +108,186 @@ small { color: #66776c; }
 
 <header>
   <h1>RETRÓSCENA</h1>
-  <p>SMART MAGAZZINO · TEST SCANNER INDIPENDENTE</p>
+  <p>SMART MAGAZZINO · SCANNER 1.0.6 · COLLAUDO</p>
 </header>
 
 <section class="panel">
-
-  <div class="pill">
-    Solo lettura · Nessun movimento di magazzino
+  <div class="badge">
+    Nessun collegamento a Google Fogli · Zero scarichi reali
   </div>
 
-  <p class="hint">
-    <strong>VERSIONE 1.0.3</strong>
-    — Ottimizzata per barcode piccoli
+  <h2>1 · Scansiona un prodotto</h2>
+
+  <div class="grid2">
+    <button id="normal" class="mode selected" type="button">
+      SCANSIONE NORMALE
+    </button>
+    <button id="small" class="mode" type="button">
+      🔍 BARCODE PICCOLI
+    </button>
+  </div>
+
+  <p id="modeHelp" class="info">
+    Modalità normale: lettura dei codici grandi già collaudata.
   </p>
 
-  <button
-    id="normal"
-    class="mode selected"
-    type="button"
-  >
-    SCANSIONE NORMALE
-  </button>
-
-  <button
-    id="small"
-    class="mode"
-    type="button"
-  >
-    🔍 SCANSIONE BARCODE PICCOLI
-  </button>
-
-  <p id="modeHelp" class="hint">
-    Modalità normale: mantiene la configurazione
-    che già funziona.
-  </p>
-
-  <button
-    id="start"
-    class="main"
-    type="button"
-  >
+  <button id="start" class="primary" type="button">
     📷 AVVIA SCANSIONE IN DIRETTA
   </button>
 
-  <button
-    id="stop"
-    class="danger hidden"
-    type="button"
-  >
+  <button id="stop" class="warning hidden" type="button">
     FERMA FOTOCAMERA
   </button>
 
   <div id="reader"></div>
 
   <div id="zoomPanel" class="hidden">
-    <div class="label" id="zoomLabel">
-      Zoom fotocamera
-    </div>
-
-    <input
-      id="zoom"
-      type="range"
-      min="1"
-      max="2"
-      step="0.1"
-      value="1"
-    >
+    <label id="zoomLabel" for="zoom">Zoom fotocamera</label>
+    <input id="zoom" type="range" min="1" max="2" step="0.1" value="1">
   </div>
 
-  <div
-    id="status"
-    role="status"
-    aria-live="polite"
-  >
-    Inizializzazione scanner...
+  <div id="status" role="status" aria-live="polite">
+    Avvio scanner...
   </div>
 
-  <p class="hint">
-    Per i barcode piccoli, prova da 15–25 cm,
-    con le barre nitide e senza riflessi.
-    Se disponibile, usa lo zoom della fotocamera.
+  <p class="info">
+    Centra le barre e mantieni l'iPad fermo.
+    Per i barcode piccoli prova da 15–25 cm.
   </p>
 </section>
 
-<section class="panel">
+<section class="panel" id="productPanel">
+  <h2>2 · Identifica il prodotto</h2>
 
-  <div class="label">
-    Barcode riconosciuto
-  </div>
+  <label>Barcode letto</label>
+  <div id="barcodeResult">—</div>
 
-  <div id="result">—</div>
+  <div id="productName">Nessun prodotto selezionato</div>
+  <div id="meta"></div>
+  <div id="mappingHint"></div>
 
-  <button
-    id="copy"
-    class="alt"
-    type="button"
-    disabled
-  >
-    COPIA CODICE
-  </button>
-
-  <button
-    id="again"
-    class="alt"
-    type="button"
-    disabled
-  >
+  <button id="again" class="secondary" type="button">
     SCANSIONA UN ALTRO PRODOTTO
   </button>
+
+  <label for="search">Cerca prodotto nel catalogo</label>
+  <input id="search" type="text"
+    placeholder="Nome, fornitore o codice articolo"
+    autocomplete="off">
+
+  <label for="product">Prodotto selezionato</label>
+  <select id="product">
+    <option value="">Seleziona articolo...</option>
+  </select>
+
+  <button id="learn" class="secondary" type="button" disabled>
+    ASSOCIA BARCODE AL PRODOTTO SELEZIONATO
+  </button>
+
+  <p class="info">
+    Le nuove associazioni vengono conservate su questo iPad.
+    Le associazioni storiche vanno controllate sulle
+    confezioni prima dell'uso reale.
+  </p>
 </section>
 
 <section class="panel">
+  <h2>3 · Movimento di prova</h2>
 
-  <div class="label">
-    Alternativa: fotografia del barcode
+  <div class="grid2">
+    <div>
+      <label for="operator">Collaboratore</label>
+      <select id="operator">
+        <option value="">Seleziona...</option>
+        <option value="AL">AL</option>
+        <option value="AK">AK</option>
+        <option value="GI">GI</option>
+        <option value="SI">SI</option>
+      </select>
+    </div>
+
+    <div>
+      <label for="quantity">Quantità · pezzi</label>
+      <input id="quantity" type="number"
+        min="1" max="999" step="1" value="1">
+    </div>
   </div>
 
-  <p class="hint">
-    Se la diretta non lo riconosce,
-    prova una fotografia nitida.
-    L'immagine resta sul dispositivo.
-  </p>
+  <label>Tipo movimento</label>
 
-  <button
-    id="take"
-    class="alt"
-    type="button"
-  >
-    SCATTA FOTO DEL BARCODE
+  <div class="grid2">
+    <button id="sold" class="op" type="button">VENDUTO</button>
+    <button id="used" class="op" type="button">CONSUMATO</button>
+  </div>
+
+  <button id="register" class="primary" type="button">
+    REGISTRA TEST · NON SCALA GIACENZA
   </button>
 
-  <input
-    id="photo"
-    type="file"
-    accept="image/*"
-    capture="environment"
-    aria-label="Fotografia del barcode"
-  >
+  <div id="lastTest">
+    Nessun movimento di prova registrato.
+  </div>
+
+  <p class="info">
+    Questa registrazione rimane nella memoria di Safari.
+    Non modifica Smart Magazzino.
+  </p>
+</section>
+
+<section class="panel">
+  <h2>Codice difficile da leggere?</h2>
+
+  <label for="manualCode">Inserisci il numero stampato</label>
+  <input id="manualCode" type="text"
+    placeholder="Numero presente sull'etichetta"
+    autocomplete="off">
+
+  <button id="manualSubmit" class="secondary" type="button">
+    USA IL CODICE INSERITO
+  </button>
+
+  <button id="gel" class="secondary" type="button">
+    SELEZIONA GEL EFFETTO BAGNATO
+  </button>
+
+  <button id="take" class="secondary" type="button">
+    📷 PROVA UNA FOTOGRAFIA
+  </button>
+
+  <input id="photo" type="file"
+    accept="image/*" capture="environment">
+
+  <p class="info">
+    Il Gel Retróscena riporta 7438635282908.
+    La selezione manuale non equivale a una lettura ottica.
+  </p>
+</section>
+
+<section class="panel">
+  <h2>Esporta test e associazioni</h2>
+  <div id="counts" class="note"></div>
+
+  <button id="exportLinks" class="secondary" type="button">
+    ESPORTA ASSOCIAZIONI CSV
+  </button>
+
+  <button id="exportTests" class="secondary" type="button">
+    ESPORTA MOVIMENTI TEST CSV
+  </button>
+
+  <button id="clearTests" class="warning" type="button">
+    CANCELLA SOLO I MOVIMENTI TEST
+  </button>
+
+  <small>
+    Le associazioni apprese sono salvate sul dispositivo.
+    Esportale prima di cancellare i dati di Safari.
+  </small>
 </section>
 
 <small>
-  Scanner gratuito di prova. Non registra vendite
-  né modifica giacenze. Richiede HTTPS e Internet.
+  Retróscena Scanner 1.0.6 · GitHub Pages ·
+  Solo collaudo · Nessuna giacenza modificata.
 </small>
 
 </main>
@@ -284,22 +295,417 @@ small { color: #66776c; }
 <script>
 'use strict';
 
+// ===========================================
+// CATALOGO PRODOTTI
+// ===========================================
+
+const PRODUCTS = [];
+
+function addProducts(supplier, data, temporary=false) {
+  data.trim().split('\n').forEach(line => {
+    const pos = line.indexOf('|');
+    if (pos < 0) return;
+    PRODUCTS.push({
+      sku: line.slice(0,pos).trim(),
+      name: line.slice(pos+1).trim(),
+      supplier,
+      temp: temporary
+    });
+  });
+}
+
+// DAVINES — 108 ARTICOLI
+
+addProducts('DAVINES', `
+75642|DEDE · shampoo · 1000ml
+75628|DEDE · shampoo · 250ml
+75643|DEDE · shampoo · 75ml
+75549|DEDE · conditioner · 1000ml
+75609|DEDE · conditioner · 250ml
+75550|DEDE · conditioner · 75ml
+75022|DEDE · hair mist · 250ml
+75525|LOVE CURL · shampoo capelli ricci · 1000ml
+75524|LOVE CURL · shampoo capelli ricci · 250ml
+75526|LOVE CURL · shampoo capelli ricci · 75ml
+75528|LOVE CURL · conditioner capelli ricci · 1000ml
+75606|LOVE CURL · conditioner capelli ricci · 250ml
+75529|LOVE CURL · conditioner capelli ricci · 75ml
+75540|LOVE CURL · curl cream · 150ml
+75659|LOVE CURL · curl controller · 150ml
+75587|LOVE · shampoo capelli crespi · 1000ml
+75586|LOVE · shampoo capelli crespi · 250ml
+75591|LOVE · shampoo capelli crespi · 75ml
+75590|LOVE · hair smoother · 150ml
+75585|LOVE · Quick mask · 1000ml
+75584|LOVE · Quick mask · 250ml
+75650|LOVE · Quick mask · 75ml
+75053|VOLU · shampoo · 1000ml
+75052|VOLU · shampoo · 250ml
+75083|VOLU · shampoo · 75ml
+75055|VOLU · hair mist · 250ml
+90156|SU · Hair & Body wash · 500ml
+90142|SU · Hair & Body wash · 75ml
+90144|SU · Hair Milk · 135ml
+90145|SU · Hair Milk · 50ml
+90158|SU · Aftersun · 150ml
+90160|SU · Tan Maximizer · 150ml
+75580|BAR · DEDE shampoo BAR · 100gr
+75581|BAR · VOLU shampoo BAR · 100gr
+75582|BAR · LOVE SMOOTH shampoo BAR · 100gr
+74030|AUTHENTIC · Nettare Lavante · 280ml
+74011|AUTHENTIC · Moisturizing Balm · 150ml
+76005|OI · shampoo · 1000ml
+76004|OI · shampoo · 280ml
+76006|OI · shampoo · 90ml
+76037|OI · hair butter · 1000ml
+76038|OI · hair butter · 250ml
+76039|OI · hair butter · 75ml
+76017|OI · body wash · 280ml
+76125|OI · body wash · 90ml
+71328|ELEVATING · Elevating Scalp recovery treatment · 100ml
+71329|ELEVATING · Elevating Clay Supercleanser · 100gr
+71332|ELEVATING · Elevating Massage Oil · 100ml
+71327|ELEVATING · Elevating Fragrance · 250ml
+71244|RENEWING · Renewing shampoo · 1000ml
+71243|RENEWING · Renewing shampoo · 250ml
+71279|RENEWING · Renewing shampoo · 100ml
+71246|RENEWING · Renewing conditioning treatment · 1000ml
+71245|RENEWING · Renewing conditioning treatment · 250ml
+71280|RENEWING · Renewing conditioning treatment · 60ml
+71253|ENERGIZING · Energizing shampoo · 1000ml
+71252|ENERGIZING · Energizing shampoo · 250ml
+71251|ENERGIZING · Energizing shampoo · 100ml
+71334|ENERGIZING · Energizing seasonal superactive · 100ml
+71333|ENERGIZING · Energizing superactive anytime · 100ml
+71336|ENERGIZING · Energizing thickening tonic · 100ml
+71213|PURIFYING · Purifying shampoo · 1000ml
+71212|PURIFYING · Purifying shampoo · 250ml
+71211|PURIFYING · Purifying shampoo · 100ml
+71408|PURIFYING · Purifying gel · 150ml
+71330|REBALANCING · Rebalancing cleansing treatment · 1000ml
+71331|REBALANCING · Rebalancing cleansing treatment · 250ml
+71348|REBALANCING · Rebalancing shampoo · 1000ml
+71345|REBALANCING · Rebalancing shampoo · 250ml
+71347|REBALANCING · Rebalancing shampoo · 100ml
+71270|DETOXIFYING · Detoxifying scrub shampoo · 1000ml
+71267|WELLBEING · Well Being shampoo · 1000ml
+71261|WELLBEING · Well Being shampoo · 250ml
+71281|WELLBEING · Well Being shampoo · 100ml
+71175|WELLBEING · Well Being conditioner · 1000ml
+71174|WELLBEING · Well Being conditioner · 150ml
+71208|WELLBEING · Well Being conditioner · 60ml
+71268|CALMING · Calming shampoo · 1000ml
+71262|CALMING · Calming shampoo · 250ml
+71282|CALMING · Calming shampoo · 100ml
+71225|CALMING · Calming superactive · 100ml
+87072|MORE INSIDE · SPRAY LUCIDANTE CON GAS · 200ml
+87113|MORE INSIDE · SHAMPOO SECCO · 250ml
+87006|MORE INSIDE · SIERO INVISIBILE · 50ml
+87131|MORE INSIDE · PASTA DUTTILE MEDIA · 125ml
+87066|MORE INSIDE · GOMMA TEXTURIZZANTE · 75ml
+87067|MORE INSIDE · CERA FORTE ASCIUTTA · 75ml
+87068|MORE INSIDE · ARGILLA MODELLANTE · 75ml
+87086|MORE INSIDE · OIL NON OIL · 250ml
+87012|MORE INSIDE · GEL TENUTA MEDIA · 250ml
+87132|MORE INSIDE · GEL TENUTA FORTE · 125ml
+87130|MORE INSIDE · CREA RICCI · 250ml
+87139|MORE INSIDE · CREA RICCI · 100ml
+87114|MORE INSIDE · MI CURL GEL OIL · 250ml
+87085|MORE INSIDE · SEA SALT SPRAY · 250ml
+87093|MORE INSIDE · SEA SALT SPRAY · 100ml
+87017|MORE INSIDE · POLVERE TEXTURIZZANTE · 8gr
+87055|MORE INSIDE · CERA ILLUMINANTE · 75ml
+87057|MORE INSIDE · POMADE PER PLASMARE · 75ml
+87126|MORE INSIDE · DRY WAX · 200ml
+93000|PASTA&LOVE · SOFTENING SHAVING GEL · 200ml
+93001|PASTA&LOVE · AFTERSHAVE&MOIST · 100ml
+93002|PASTA&LOVE · PRE-SHAVING&BEARD OIL · 50ml
+93011|PASTA&LOVE · SHAVING GEL · 150ml
+93022|PASTA&LOVE · STYLING PASTE · 125ml
+93013|PASTA&LOVE · STYLING CLAY · 50ml
+93015|PASTA&LOVE · HAIR BEARD&BODY WASH · 300ml
+93016|PASTA&LOVE · MEDIUM FIBER CREAM · 50ml
+`);
+
+// PRO BIG — 39 ARTICOLI ATTIVI
+
+addProducts('PRO BIG', `
+PB-002|Muran Spicy Spray fissativo 300ml
+PB-003|Ktime Glam Runway Lacca 500ml
+PB-004|Ktime Glam Runway Lacca 100ml
+PB-005|Barbapapà Apache Spray 400ml
+PB-006|Kelité Shaving Cream 500ml
+PB-007|Kelité Shaving Gel 1000ml
+PB-008|Kelité Crema Dopobarba Anti Age 200ml
+PB-013|Fono Parlux 2800
+PB-014|Veline Royal 100 pezzi
+PB-015|Asciugamano H.Tech piegato 63 pezzi
+PB-016|Cotone idrofilo 400g
+PB-017|Ktime Let's Clean 250ml
+PB-018|Schermo Color Protect 200ml
+PB-019|Rotolo carta collo nero Eurostil
+PB-020|Guanti neri nitrile Royal taglia S 100 pezzi
+PB-021|Guanti lattice
+PB-022|Barbapapà Lubrificante 5 in 1 400ml
+PB-023|Mantelle monouso tinta 30 pezzi
+PB-024|Marsupio porta attrezzi
+PB-025|Fono Muster 2500 nero
+PB-026|Rasoio Daune
+PB-027|Rasoio mezza lama Magic
+PB-028|Rasoio Wahl Mobile Shaver
+PB-029|Tosatrice Muster Cayman
+PB-030|Spazzola 263 Superior ovale barba
+PB-031|Diffusore Giubbra
+PB-032|Spazzola Denman D143 5 file
+PB-033|Spazzola Denman D3 7 file Nordic Ice
+PB-034|Spazzola Denman Fade Brush
+PB-035|Minerva emostatici
+PB-036|Spazzola Pensilvania Giubbra 769
+PB-037|Scovolo 0211 VI
+PB-038|Scovolo 0210 V
+PB-039|Scovolo 0209 IV
+PB-040|Scovolo 0208 III
+PB-041|Scovolo 0207 I
+PB-042|Spruzzo Floyd
+PB-043|Baljé Shampoo 5 litri
+PB-044|Lame Astra Verdi 100 pezzi
+`, true);
+
+// PRODOTTI RECUPERO — 23 ARTICOLI
+
+addProducts('PRODOTTI-RECUPERO', `
+8034076295543|Scopa Mirella nera bassa 27cm
+S.178|Paletta rossa/blu con manico
+8055386741490|Ricambio mop microfibra grigio 200g
+5041|Secchio professionale Easy 14 litri
+712|Manico nero metallo 130cm
+00TOP55R60TR|Sacchi trasparenti Top Sac 55x65
+00TOP70R45AZ|Sacchi azzurri Top Sac 70x110
+8051884503332|Panno microfibra 35x35 confezione 5
+S.456P|Panno microfibra multiuso nero
+302008554012|Panno microfibra vetri 40x50
+35S|Spugna accoppiata 14x10
+120323|Carta igienica Tork T4 4 rotoli
+75204|Bicchieri trasparenti 200cc
+64379|Bicchieri carta 75ml
+140501|Vetrinex detergente vetri
+712500|General Multicuat disinfettante
+1821-S|Sanitec Multi Activ disinfettante
+7317|Cif detergente parquet e mobili
+100861325|Cif Wood Polish 750ml
+LK380607|Sgrassatore igienizzante limone
+IPER4|Medisan Iper 4 disinfettante pavimenti
+800360022052|Detergente lavatrice Soft Blu
+7210322|Coccolino ammorbidente Professional
+`);
+
+// PRODOTTO RETRÓSCENA
+
+addProducts('RETRÓSCENA', `
+EXTRA-GEL-BAGNATO|Gel Effetto Bagnato Retróscena Barbieri
+`, true);
+
+// ===========================================
+// ASSOCIAZIONI BARCODE
+// ===========================================
+
+const BUILTIN = {};
+
+function addBarcodes(data, stato) {
+  data.trim().split('\n').forEach(line => {
+    const [barcode, sku] = line.trim().split('|');
+    if (barcode && sku) {
+      BUILTIN[barcode] = {sku, stato};
+    }
+  });
+}
+
+// RISCONTRI WEB CON CODICE ARTICOLO
+
+addBarcodes(`
+8004608280484|75628
+8004608242987|75643
+8004608256670|71348
+8004608237419|87131
+8004608237488|87130
+`, 'WEB CON SKU');
+
+// CODICI DA CATALOGO STORICO DAVINES
+
+addBarcodes(`
+8004608262435|75549
+8004608276937|75609
+8004608262442|75550
+8004608242215|75022
+8004608257103|75525
+8004608257097|75524
+8004608257110|75526
+8004608257134|75528
+8004608275893|75606
+8004608257141|75529
+8004608257271|75540
+8004608274872|75587
+8004608274865|75586
+8004608275589|75591
+8004608275572|75585
+8004608275565|75584
+8004608242529|75053
+8004608242512|75052
+8004608243076|75083
+8004608242543|75055
+8004608261810|90142
+8004608261780|90144
+8004608261797|90145
+8004608270607|90158
+8004608270621|90160
+8004608273134|75580
+8004608273141|75581
+8004608273158|75582
+8004608247647|76005
+8004608247630|76004
+8004608247654|76006
+8004608264583|76037
+8004608264590|76038
+8004608264606|76039
+8004608247760|76017
+8004608275329|71328
+8004608275336|71329
+8004608275367|71332
+8004608276760|71327
+8004608255109|71244
+8004608255093|71243
+8004608256755|71279
+8004608255123|71246
+8004608255116|71245
+8004608256762|71280
+8004608255512|71253
+8004608255505|71252
+8004608255499|71251
+8004608275374|71334
+8004608275381|71333
+8004608275404|71336
+8004608236603|71213
+8004608236580|71212
+8004608236597|71211
+8004608275343|71330
+8004608275350|71331
+8004608256663|71270
+8004608256632|71267
+8004608256502|71261
+8004608256786|71281
+8004608230779|71175
+8004608230762|71174
+8004608234944|71208
+8004608256649|71268
+8004608256519|71262
+8004608256793|71282
+8004608244509|71225
+8004608252153|87072
+8004608277408|87113
+8004608237402|87006
+8004608251965|87066
+8004608251972|87067
+8004608251989|87068
+8004608258865|87086
+8004608237464|87012
+8004608279310|87114
+8004608258346|87085
+8004608237518|87017
+8004608248934|87055
+8004608248958|87057
+8004608267034|93000
+8004608267041|93001
+8004608267058|93002
+8004608276456|93011
+8004608276470|93013
+8004608280507|93015
+8004608280491|93016
+`, 'CATALOGO STORICO');
+
+// BARCODE CONFERMATI DALLE FOTO
+
+addBarcodes(`
+0806891482952|PB-002
+8057007230123|PB-003
+8033993192096|PB-006
+8057007240191|PB-017
+8057007230246|PB-004
+8388779794477|PB-005
+8388779569280|PB-022
+8033993192089|PB-007
+8033993192102|PB-008
+`, 'FOTO CONFEZIONE');
+
+// CODICI PRESENTI NELL'EXCEL
+
+addBarcodes(`
+8034076295543|8034076295543
+8055386741490|8055386741490
+8051884503332|8051884503332
+302008554012|302008554012
+800360022052|800360022052
+`, 'CODICE EXCEL');
+
+// GEL RETRÓSCENA
+
+addBarcodes(`
+7438635282908|EXTRA-GEL-BAGNATO
+`, 'NUMERO STAMPATO');
+
+// ===========================================
+// STATO APPLICAZIONE
+// ===========================================
+
 const $ = id => document.getElementById(id);
+
+const KEYS = {
+  learned:'retroscena_scanner_105_mappings',
+  logs:'retroscena_scanner_105_tests'
+};
+
+const bySku = Object.fromEntries(
+  PRODUCTS.map(p => [p.sku,p])
+);
+
+function readStore(key,fallback) {
+  try {
+    const value = JSON.parse(localStorage.getItem(key));
+    return value === null ? fallback : value;
+  } catch(e) {
+    return fallback;
+  }
+}
+
+function saveStore(key,data) {
+  try {
+    localStorage.setItem(key,JSON.stringify(data));
+    return true;
+  } catch(e) {
+    status('Memoria locale non disponibile.','error');
+    return false;
+  }
+}
+
+let learned = readStore(KEYS.learned,{});
+let logs = readStore(KEYS.logs,[]);
 
 let scanner = null;
 let running = false;
 let starting = false;
 let stopping = false;
 let photoBusy = false;
-let decoded = '';
-let lastRead = 0;
 let smallMode = false;
 let zoomTrack = null;
 let zoomBusy = false;
+let decoded = '';
+let pendingBarcode = '';
+let selectedSku = '';
+let kind = '';
+let lastRead = 0;
 
-function status(message, kind = '') {
+function status(message,css='') {
   $('status').textContent = message;
-  $('status').className = kind;
+  $('status').className = css;
 }
 
 function ready() {
@@ -321,168 +727,306 @@ function formats() {
   ];
 }
 
-function setControls() {
-  const locked = starting || stopping || photoBusy;
+// ===========================================
+// IDENTIFICAZIONE PRODOTTI
+// ===========================================
 
-  $('start').disabled = locked || running;
+function variants(raw) {
+  const s = String(raw || '').trim();
+  const result = [s];
 
-  $('stop').classList.toggle('hidden', !running);
-  $('stop').disabled = locked;
+  if (/^\d{12}$/.test(s)) result.push('0'+s);
+  if (/^0\d{12}$/.test(s)) result.push(s.slice(1));
 
-  $('normal').disabled = locked || running;
-  $('small').disabled = locked || running;
-
-  $('normal').classList.toggle(
-    'selected',
-    !smallMode
-  );
-
-  $('small').classList.toggle(
-    'selected',
-    smallMode
-  );
-
-  $('again').disabled =
-    !decoded || locked || running;
-
-  $('copy').disabled = !decoded;
-
-  $('take').disabled = locked || running;
-
-  $('zoom').disabled =
-    zoomBusy || locked || !running;
+  return result;
 }
 
-function chooseMode(isSmall) {
-  if (
-    running ||
-    starting ||
-    stopping ||
-    photoBusy
-  ) {
-    return;
+function lookup(raw) {
+  for (const barcode of variants(raw)) {
+    if (learned[barcode] && bySku[learned[barcode].sku]) {
+      return {...learned[barcode],barcode,local:true};
+    }
+
+    if (BUILTIN[barcode] && bySku[BUILTIN[barcode].sku]) {
+      return {...BUILTIN[barcode],barcode,local:false};
+    }
   }
-
-  smallMode = isSmall;
-
-  $('modeHelp').textContent = smallMode
-    ? 'Modalità piccoli: richiede più risoluzione, ' +
-      'amplia l’area di lettura e offre lo zoom ' +
-      'se supportato.'
-    : 'Modalità normale: mantiene la ' +
-      'configurazione che già funziona.';
-
-  $('zoomPanel').classList.add('hidden');
-
-  setControls();
+  return null;
 }
 
-function gotCode(raw) {
-  const code = String(raw || '').trim();
+function gtinValid(raw) {
+  const s = String(raw);
+
+  if (!/^(\d{8}|\d{12}|\d{13}|\d{14})$/.test(s)) {
+    return false;
+  }
+
+  let sum = 0;
+
+  for (let i=s.length-2,j=0;i>=0;i--,j++) {
+    sum += Number(s[i]) * (j%2===0 ? 3 : 1);
+  }
+
+  return (10-sum%10)%10 === Number(s[s.length-1]);
+}
+
+function updateCounts() {
+  $('counts').textContent =
+    'Catalogo attivo: '+PRODUCTS.length+' articoli.\n'+
+    'Barcode precaricati: '+Object.keys(BUILTIN).length+'.\n'+
+    'Associazioni apprese su questo iPad: '+
+      Object.keys(learned).length+'.\n'+
+    'Movimenti TEST: '+logs.length+'.\n'+
+    'Prodotti Crest esclusi: 5.\n'+
+    'Nessuna giacenza modificata.';
+}
+
+function options() {
+  const q = $('search').value.toLocaleLowerCase('it').trim();
+
+  let matches = PRODUCTS.filter(p => {
+    const text = (p.sku+' '+p.name+' '+p.supplier)
+      .toLocaleLowerCase('it');
+
+    return !q || text.includes(q);
+  });
 
   if (
-    !code ||
-    Date.now() - lastRead < 1200
+    q &&
+    selectedSku &&
+    bySku[selectedSku] &&
+    !matches.some(p => p.sku === selectedSku)
   ) {
-    return;
+    matches.unshift(bySku[selectedSku]);
   }
+
+  matches = matches.slice(0,90);
+
+  $('product').replaceChildren(
+    new Option('Seleziona articolo...','')
+  );
+
+  matches.forEach(p => {
+    $('product').add(
+      new Option(p.supplier+' · '+p.name,p.sku)
+    );
+  });
+
+  $('product').value = matches.some(
+    p => p.sku === selectedSku
+  ) ? selectedSku : '';
+}
+
+function setProduct(sku) {
+  selectedSku = bySku[sku] ? sku : '';
+
+  if (selectedSku) {
+    $('search').value = '';
+    options();
+    $('product').value = selectedSku;
+  } else {
+    $('product').value = '';
+  }
+
+  const p = bySku[selectedSku];
+
+  $('productName').textContent =
+    p ? p.name : 'Prodotto non ancora identificato';
+
+  $('meta').textContent = p
+    ? p.supplier+' · Codice articolo: '+p.sku
+    : '';
+
+  updateControls();
+}
+
+function showMatch(raw,source) {
+  const barcode = String(raw || '').trim();
+
+  if (!barcode || barcode.length > 50) return;
+
+  if (
+    source === 'camera' &&
+    Date.now()-lastRead < 1200
+  ) return;
 
   lastRead = Date.now();
-  decoded = code;
+  decoded = barcode;
+  pendingBarcode = barcode;
 
-  $('result').textContent = code;
+  $('barcodeResult').textContent = barcode;
 
-  status(
-    '✓ Barcode riconosciuto: ' + code,
-    'success'
-  );
+  const match = lookup(barcode);
 
-  if (navigator.vibrate) {
-    try {
-      navigator.vibrate(100);
-    } catch (e) {}
+  if (match) {
+    setProduct(match.sku);
+
+    $('mappingHint').textContent =
+      'Associazione: '+
+      (match.local ? 'appresa su questo iPad' : match.stato)+
+      (match.stato === 'CATALOGO STORICO'
+        ? '. Da confermare sulla confezione reale.'
+        : '');
+
+    status(
+      '✓ Barcode '+(source==='manuale'?'inserito':'letto')+
+      ': '+barcode+'\n'+bySku[match.sku].name,
+      'ok'
+    );
+  } else {
+    setProduct('');
+
+    $('mappingHint').textContent =
+      'Barcode non ancora associato. '+
+      'Cerca il prodotto e premi ASSOCIA BARCODE.'+
+      (!gtinValid(barcode)
+        ? '\nCodice non conforme a GTIN: verifica il formato.'
+        : '');
+
+    status(
+      'Barcode: '+barcode+
+      '\nSeleziona il prodotto corrispondente.',
+      'ok'
+    );
   }
 
-  setControls();
+  if (source==='camera' && navigator.vibrate) {
+    try {navigator.vibrate(90);} catch(e) {}
+  }
+
+  updateControls();
 
   if (running) {
     void stopCamera(false);
   }
+
+  if (source === 'camera' || source === 'foto') {
+    setTimeout(() => {
+      $('productPanel').scrollIntoView({
+        behavior:'smooth',
+        block:'start'
+      });
+    },450);
+  }
 }
 
-async function stopCamera(announce = true) {
-  if (
-    stopping ||
-    !scanner ||
-    !running
-  ) {
-    return;
-  }
+function resetScan() {
+  decoded = '';
+  pendingBarcode = '';
+  selectedSku = '';
+
+  $('barcodeResult').textContent = '—';
+  $('mappingHint').textContent = '';
+
+  setProduct('');
+  updateControls();
+}
+
+// ===========================================
+// FOTOCAMERA
+// ===========================================
+
+function selectMode(value) {
+  if (running || starting || stopping || photoBusy) return;
+
+  smallMode = value;
+
+  $('modeHelp').textContent = value
+    ? 'Modalità piccoli: risoluzione maggiore e zoom se disponibile.'
+    : 'Modalità normale: configurazione già collaudata.';
+
+  updateControls();
+}
+
+function selectKind(value) {
+  kind = value;
+  updateControls();
+}
+
+function updateControls() {
+  const locked = starting || stopping || photoBusy;
+
+  $('start').disabled = locked || running;
+
+  $('stop').disabled = locked;
+  $('stop').classList.toggle('hidden',!running);
+
+  [
+    'normal','small','learn','sold','used',
+    'register','manualSubmit','gel','take','again'
+  ].forEach(id => {
+    $(id).disabled =
+      locked || running ||
+      (id==='learn' && (!selectedSku || !pendingBarcode));
+  });
+
+  $('normal').classList.toggle('selected',!smallMode);
+  $('small').classList.toggle('selected',smallMode);
+
+  $('sold').classList.toggle('selected',kind==='VENDUTO');
+  $('used').classList.toggle('selected',kind==='CONSUMATO');
+
+  $('zoom').disabled = locked || zoomBusy || !running;
+}
+
+async function stopCamera(announce=true) {
+  if (stopping || !scanner || !running) return;
 
   stopping = true;
   zoomTrack = null;
 
   $('zoomPanel').classList.add('hidden');
-
-  setControls();
+  updateControls();
 
   try {
     await scanner.stop();
-    running = false;
-  } catch (err) {
-    running = false;
-
+  } catch(e) {
     if (announce) {
-      status(
-        'Avviso durante l’arresto: ' +
-        (err.message || String(err)),
-        'error'
-      );
+      status('Errore arresto fotocamera: '+String(e),'error');
     }
-  } finally {
-    stopping = false;
-    setControls();
   }
 
-  if (announce) {
-    status('Fotocamera fermata.');
-  }
+  running = false;
+
+  try {scanner.clear();} catch(e) {}
+
+  scanner = null;
+  stopping = false;
+  updateControls();
+
+  if (announce) status('Fotocamera fermata.');
 }
 
-function makeSettings(high) {
+function cameraSettings(high) {
   const cfg = {
     fps: high ? 12 : 10,
 
-    qrbox: (width, height) => ({
-      width: Math.max(
+    qrbox:(width,height) => ({
+      width:Math.max(
         20,
         Math.min(
-          width - 2,
-          Math.round(
-            width * (high ? 0.94 : 0.85)
-          )
+          width-2,
+          Math.round(width*(high ? .94 : .85))
         )
       ),
 
-      height: Math.max(
+      height:Math.max(
         20,
         Math.min(
-          height - 2,
-          Math.round(
-            height * (high ? 0.62 : 0.40)
-          )
+          height-2,
+          Math.round(height*(high ? .62 : .40))
         )
       )
     }),
 
-    disableFlip: true
+    disableFlip:true
   };
 
   if (high) {
     cfg.videoConstraints = {
-      facingMode: 'environment',
-      width: { ideal: 1920 },
-      height: { ideal: 1080 }
+      facingMode:'environment',
+      width:{ideal:1920},
+      height:{ideal:1080}
     };
   }
 
@@ -491,16 +1035,9 @@ function makeSettings(high) {
 
 async function configureZoom() {
   $('zoomPanel').classList.add('hidden');
-
   zoomTrack = null;
 
-  if (
-    !running ||
-    !smallMode ||
-    !scanner
-  ) {
-    return;
-  }
+  if (!running || !smallMode) return;
 
   try {
     const video = $('reader').querySelector('video');
@@ -513,23 +1050,16 @@ async function configureZoom() {
     if (!track) return;
 
     const settings = track.getSettings
-      ? track.getSettings()
-      : {};
-
-    let detail = 'Fotocamera attiva';
-
-    if (settings.width && settings.height) {
-      detail +=
-        ' (' +
-        settings.width +
-        '×' +
-        settings.height +
-        ')';
-    }
+      ? track.getSettings() : {};
 
     const caps = track.getCapabilities
-      ? track.getCapabilities()
-      : {};
+      ? track.getCapabilities() : {};
+
+    let message = 'Fotocamera attiva';
+
+    if (settings.width) {
+      message += ' ('+settings.width+'×'+settings.height+')';
+    }
 
     if (
       caps.zoom &&
@@ -543,72 +1073,42 @@ async function configureZoom() {
       $('zoom').max = String(caps.zoom.max);
 
       $('zoom').step = String(
-        caps.zoom.step && caps.zoom.step > 0
-          ? caps.zoom.step
-          : 0.1
+        caps.zoom.step > 0 ? caps.zoom.step : .1
       );
 
-      const initial = Math.max(
+      const z = Math.max(
         caps.zoom.min,
-        Math.min(caps.zoom.max, 1.5)
+        Math.min(caps.zoom.max,1.5)
       );
 
-      $('zoom').value = String(initial);
-
-      $('zoomLabel').textContent =
-        'Zoom fotocamera: ' +
-        Number(initial).toFixed(1) +
-        '×';
+      $('zoom').value = String(z);
+      $('zoomLabel').textContent = 'Zoom: '+z.toFixed(1)+'×';
 
       $('zoomPanel').classList.remove('hidden');
 
       try {
         await track.applyConstraints({
-          advanced: [{ zoom: initial }]
+          advanced:[{zoom:z}]
         });
-      } catch (err) {
-        $('zoom').value = String(
-          settings.zoom || caps.zoom.min
-        );
-      }
+      } catch(e) {}
 
-      detail += '. Zoom disponibile.';
+      message += ' · Zoom disponibile';
     } else {
-      detail +=
-        '. Zoom del browser non disponibile ' +
-        'su questo iPad.';
+      message += ' · Zoom non disponibile';
     }
 
-    status(
-      detail +
-      '\nInquadra il barcode piccolo.',
-      'success'
-    );
+    status(message+'\nInquadra il barcode.','ok');
 
-  } catch (err) {
-    status(
-      'Fotocamera attiva. ' +
-      'Inquadra il barcode piccolo.',
-      'success'
-    );
+  } catch(e) {
+    status('Fotocamera attiva. Inquadra il barcode.','ok');
   }
 }
 
 async function startCamera() {
-  if (
-    starting ||
-    running ||
-    stopping ||
-    photoBusy
-  ) {
-    return;
-  }
+  if (running || starting || stopping || photoBusy) return;
 
   if (!window.isSecureContext) {
-    status(
-      'Apri questa pagina tramite HTTPS.',
-      'error'
-    );
+    status('Apri il sito tramite HTTPS.','error');
     return;
   }
 
@@ -616,88 +1116,70 @@ async function startCamera() {
     !navigator.mediaDevices ||
     !navigator.mediaDevices.getUserMedia
   ) {
-    status(
-      'Fotocamera non disponibile ' +
-      'in questa pagina di Safari.',
-      'error'
-    );
+    status('Fotocamera non disponibile.','error');
     return;
   }
 
   if (!ready()) {
-    status(
-      'Libreria scanner non caricata: ' +
-      'controlla Internet e aggiorna.',
-      'error'
-    );
+    status('Libreria scanner non caricata.','error');
     return;
   }
 
+  resetScan();
+
   starting = true;
+  updateControls();
 
-  setControls();
-
-  status(
-    'Richiesta autorizzazione fotocamera...'
-  );
+  status('Richiesta permesso fotocamera...');
 
   try {
-    scanner = new Html5Qrcode('reader', {
-      formatsToSupport: formats(),
-      verbose: false
+    scanner = new Html5Qrcode('reader',{
+      formatsToSupport:formats(),
+      verbose:false
     });
 
     try {
       await scanner.start(
-        { facingMode: 'environment' },
-        makeSettings(smallMode),
-        gotCode,
+        {facingMode:'environment'},
+        cameraSettings(smallMode),
+        code => showMatch(code,'camera'),
         () => {}
       );
 
-    } catch (firstErr) {
-      if (!smallMode) {
-        throw firstErr;
-      }
+    } catch(firstError) {
+      if (!smallMode) throw firstError;
 
-      try {
-        scanner.clear();
-      } catch (e) {}
+      try {scanner.clear();} catch(e) {}
 
-      scanner = new Html5Qrcode('reader', {
-        formatsToSupport: formats(),
-        verbose: false
+      scanner = new Html5Qrcode('reader',{
+        formatsToSupport:formats(),
+        verbose:false
       });
 
       await scanner.start(
-        { facingMode: 'environment' },
-        makeSettings(false),
-        gotCode,
+        {facingMode:'environment'},
+        cameraSettings(false),
+        code => showMatch(code,'camera'),
         () => {}
       );
     }
 
     running = true;
 
-    status(
-      'Fotocamera attiva. Inquadra il barcode.',
-      'success'
-    );
+    status('Fotocamera attiva. Inquadra le barre.','ok');
 
-  } catch (err) {
+  } catch(e) {
     running = false;
 
     status(
-      'Impossibile avviare la fotocamera.\n' +
-      (err.name || 'Errore') +
-      ': ' +
-      (err.message || String(err)),
+      'Fotocamera non avviata:\n'+
+      (e.name||'Errore')+': '+(e.message||String(e)),
       'error'
     );
 
   } finally {
     starting = false;
-    setControls();
+    updateControls();
   }
 
   if (running && decoded) {
@@ -710,193 +1192,408 @@ async function startCamera() {
   }
 }
 
-async function scanPhoto(file) {
+// ===========================================
+// APPRENDIMENTO BARCODE
+// ===========================================
+
+function learn() {
+  if (!pendingBarcode || !selectedSku) return;
+
+  const p = bySku[selectedSku];
+  const existing = lookup(pendingBarcode);
+
   if (
-    !file ||
-    photoBusy ||
-    starting ||
-    running
+    existing &&
+    existing.sku === selectedSku
   ) {
+    status('Barcode già associato a questo prodotto.','ok');
     return;
   }
 
+  if (
+    existing &&
+    existing.sku !== selectedSku
+  ) {
+    const oldProduct = bySku[existing.sku];
+
+    if (!confirm(
+      'Questo barcode risulta associato a:\n'+
+      oldProduct.name+
+      '\n\nVuoi correggere l’associazione su questo iPad?'
+    )) return;
+  }
+
+  if (!confirm(
+    'Associa il barcode '+pendingBarcode+
+    '\nAl prodotto:\n'+p.name+
+    '\n\nConfermi?'
+  )) return;
+
+  learned[pendingBarcode] = {
+    sku:selectedSku,
+    stato:'ASSOCIAZIONE LOCALE',
+    at:new Date().toISOString()
+  };
+
+  if (saveStore(KEYS.learned,learned)) {
+    status('✓ Associazione salvata su questo iPad.','ok');
+    updateCounts();
+  }
+}
+
+// ===========================================
+// MOVIMENTI VENDUTO / CONSUMATO
+// ===========================================
+
+function newId() {
+  if (window.crypto && crypto.randomUUID) {
+    return crypto.randomUUID();
+  }
+
+  if (window.crypto && crypto.getRandomValues) {
+    const numbers = new Uint32Array(4);
+    crypto.getRandomValues(numbers);
+
+    return Array.from(
+      numbers,
+      x => x.toString(16)
+    ).join('-');
+  }
+
+  return 'test-'+Date.now()+
+    '-'+Math.random().toString(36).slice(2);
+}
+
+function registerTest() {
+  if (running || starting || stopping || photoBusy) return;
+
+  const p = bySku[selectedSku];
+  const qty = Number($('quantity').value);
+  const operator = $('operator').value;
+
+  if (!p) {
+    alert('Seleziona prima un prodotto.');
+    return;
+  }
+
+  if (!['AL','AK','GI','SI'].includes(operator)) {
+    alert('Seleziona il collaboratore.');
+    return;
+  }
+
+  if (!['VENDUTO','CONSUMATO'].includes(kind)) {
+    alert('Scegli VENDUTO oppure CONSUMATO.');
+    return;
+  }
+
+  if (
+    !Number.isSafeInteger(qty) ||
+    qty < 1 ||
+    qty > 999
+  ) {
+    alert('Inserisci una quantità da 1 a 999.');
+    return;
+  }
+
+  if (pendingBarcode) {
+    const match = lookup(pendingBarcode);
+
+    if (!match || match.sku !== selectedSku) {
+      alert(
+        'Il barcode letto non è associato al prodotto.\n'+
+        'Prima conferma l’associazione.'
+      );
+      return;
+    }
+  }
+
+  if (!confirm(
+    'REGISTRAZIONE DI PROVA\n'+
+    'Nessuna giacenza verrà modificata.\n\n'+
+    p.name+'\n'+
+    kind+' · '+qty+' pezzi\n'+
+    'Collaboratore: '+operator+
+    '\n\nConfermi?'
+  )) return;
+
+  const entry = {
+    id:newId(),
+    quando:new Date().toISOString(),
+    sku:p.sku,
+    prodotto:p.name,
+    fornitore:p.supplier,
+    barcode:pendingBarcode || '',
+    tipo:kind,
+    quantita:qty,
+    collaboratore:operator,
+    esito:'SOLO TEST'
+  };
+
+  logs.push(entry);
+
+  if (logs.length > 500) {
+    logs = logs.slice(-500);
+  }
+
+  saveStore(KEYS.logs,logs);
+
+  $('lastTest').textContent =
+    '✓ TEST registrato\n'+
+    kind+' · '+qty+' pezzi\n'+
+    p.name+'\n'+
+    'Collaboratore: '+operator+
+    '\nNESSUNA GIACENZA MODIFICATA';
+
+  status('✓ Movimento di prova registrato.','ok');
+  updateCounts();
+}
+
+// ===========================================
+// ESPORTAZIONI CSV
+// ===========================================
+
+function csvCell(value) {
+  let s = String(value ?? '');
+
+  if (/^[=+@\-]/.test(s)) {
+    s = "'"+s;
+  }
+
+  return '"'+s.replace(/"/g,'""')+'"';
+}
+
+function exportCsv(filename,rows) {
+  const text =
+    '\uFEFF'+rows.map(
+      r => r.map(csvCell).join(';')
+    ).join('\r\n');
+
+  const blob = new Blob([text],{
+    type:'text/csv;charset=utf-8'
+  });
+
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+
+  setTimeout(() => URL.revokeObjectURL(url),1000);
+}
+
+function exportLinks() {
+  const rows = [[
+    'BARCODE','CODICE ARTICOLO',
+    'PRODOTTO','FORNITORE','STATO'
+  ]];
+
+  Object.entries(BUILTIN).forEach(([barcode,m]) => {
+    const p = bySku[m.sku];
+
+    if (p) rows.push([
+      barcode,m.sku,p.name,p.supplier,m.stato
+    ]);
+  });
+
+  Object.entries(learned).forEach(([barcode,m]) => {
+    const p = bySku[m.sku];
+
+    if (p) rows.push([
+      barcode,m.sku,p.name,p.supplier,
+      'ASSOCIAZIONE IPAD'
+    ]);
+  });
+
+  exportCsv('retroscena_associazioni_barcode.csv',rows);
+}
+
+function exportTests() {
+  const rows = [[
+    'ID','DATA','TIPO','QUANTITA',
+    'COLLABORATORE','CODICE ARTICOLO',
+    'PRODOTTO','FORNITORE','BARCODE','ESITO'
+  ]];
+
+  logs.forEach(r => {
+    rows.push([
+      r.id,r.quando,r.tipo,r.quantita,
+      r.collaboratore,r.sku,r.prodotto,
+      r.fornitore,r.barcode,'SOLO TEST'
+    ]);
+  });
+
+  exportCsv('retroscena_movimenti_TEST.csv',rows);
+}
+
+// ===========================================
+// SCANSIONE DA FOTOGRAFIA
+// ===========================================
+
+async function scanPhoto(file) {
+  if (!file || photoBusy || starting || running) return;
+
   if (!ready()) {
-    status(
-      'Libreria scanner non caricata.',
-      'error'
-    );
+    status('Libreria scanner non caricata.','error');
     return;
   }
 
   photoBusy = true;
-  setControls();
-
+  updateControls();
   status('Analisi della fotografia...');
 
   let reader = null;
 
   try {
-    reader = new Html5Qrcode('reader', {
-      formatsToSupport: formats(),
-      verbose: false
+    reader = new Html5Qrcode('reader',{
+      formatsToSupport:formats(),
+      verbose:false
     });
 
-    const value = await reader.scanFile(
-      file,
-      true
-    );
+    const barcode = await reader.scanFile(file,true);
 
-    gotCode(value);
+    showMatch(barcode,'foto');
 
-  } catch (err) {
+  } catch(e) {
     status(
-      'Barcode non riconosciuto nella fotografia.\n' +
-      (err.message || String(err)),
+      'Fotografia non riconosciuta:\n'+
+      (e.message||String(e)),
       'error'
     );
 
   } finally {
     if (reader) {
-      try {
-        reader.clear();
-      } catch (err) {}
+      try {reader.clear();} catch(e) {}
     }
 
-    scanner = null;
     photoBusy = false;
-
-    setControls();
+    updateControls();
   }
 }
 
-$('normal').addEventListener(
-  'click',
-  () => chooseMode(false)
-);
+// ===========================================
+// EVENTI INTERFACCIA
+// ===========================================
 
-$('small').addEventListener(
-  'click',
-  () => chooseMode(true)
-);
+$('normal').addEventListener('click',() => selectMode(false));
+$('small').addEventListener('click',() => selectMode(true));
 
-$('start').addEventListener(
-  'click',
-  startCamera
-);
+$('start').addEventListener('click',startCamera);
 
-$('stop').addEventListener(
-  'click',
-  () => void stopCamera(true)
-);
+$('stop').addEventListener('click',() => {
+  void stopCamera(true);
+});
 
-$('again').addEventListener('click', () => {
-  decoded = '';
-  $('result').textContent = '—';
-
-  setControls();
-
+$('again').addEventListener('click',() => {
   void startCamera();
 });
 
-$('copy').addEventListener(
-  'click',
-  async () => {
-    try {
-      await navigator.clipboard.writeText(decoded);
+$('search').addEventListener('input',options);
 
-      status(
-        'Codice copiato: ' + decoded,
-        'success'
-      );
+$('product').addEventListener('change',() => {
+  selectedSku = $('product').value;
+  setProduct(selectedSku);
+});
 
-    } catch (err) {
-      status(
-        'Codice: ' +
-        decoded +
-        ' — selezionalo per copiarlo.',
-        'error'
-      );
-    }
+$('learn').addEventListener('click',learn);
+
+$('sold').addEventListener('click',() => {
+  selectKind('VENDUTO');
+});
+
+$('used').addEventListener('click',() => {
+  selectKind('CONSUMATO');
+});
+
+$('register').addEventListener('click',registerTest);
+
+$('manualSubmit').addEventListener('click',() => {
+  const code = $('manualCode').value.trim();
+
+  if (!/^[A-Za-z0-9_-]{4,50}$/.test(code)) {
+    alert('Inserisci un codice valido senza spazi.');
+    return;
   }
-);
 
-$('take').addEventListener(
-  'click',
-  () => $('photo').click()
-);
+  showMatch(code,'manuale');
+});
 
-$('photo').addEventListener(
-  'change',
-  async function() {
-    const file =
-      this.files && this.files[0];
+$('gel').addEventListener('click',() => {
+  showMatch('7438635282908','manuale');
+});
 
-    this.value = '';
+$('take').addEventListener('click',() => {
+  $('photo').click();
+});
 
-    if (file) {
-      await scanPhoto(file);
-    }
+$('photo').addEventListener('change',async function() {
+  const file = this.files && this.files[0];
+  this.value = '';
+
+  if (file) await scanPhoto(file);
+});
+
+$('zoom').addEventListener('input',async function() {
+  if (!zoomTrack || zoomBusy || !running) return;
+
+  const value = Number(this.value);
+
+  $('zoomLabel').textContent =
+    'Zoom: '+value.toFixed(1)+'×';
+
+  zoomBusy = true;
+  updateControls();
+
+  try {
+    await zoomTrack.applyConstraints({
+      advanced:[{zoom:value}]
+    });
+  } catch(e) {
+    status('Zoom non applicabile su questo iPad.','error');
+  } finally {
+    zoomBusy = false;
+    updateControls();
   }
-);
+});
 
-$('zoom').addEventListener(
-  'input',
-  async function() {
-    if (
-      !zoomTrack ||
-      zoomBusy ||
-      !running
-    ) {
-      return;
-    }
+$('exportLinks').addEventListener('click',exportLinks);
+$('exportTests').addEventListener('click',exportTests);
 
-    const val = Number(this.value);
+$('clearTests').addEventListener('click',() => {
+  if (confirm(
+    'Vuoi cancellare soltanto i movimenti di prova?'
+  )) {
+    logs = [];
+    saveStore(KEYS.logs,logs);
 
-    $('zoomLabel').textContent =
-      'Zoom fotocamera: ' +
-      val.toFixed(1) +
-      '×';
+    $('lastTest').textContent =
+      'Registro dei test vuoto.';
 
-    zoomBusy = true;
-    setControls();
-
-    try {
-      await zoomTrack.applyConstraints({
-        advanced: [{ zoom: val }]
-      });
-
-    } catch (err) {
-      status(
-        'Zoom non applicabile su questo iPad. ' +
-        'Puoi comunque scansionare.',
-        'error'
-      );
-
-    } finally {
-      zoomBusy = false;
-      setControls();
-    }
+    updateCounts();
   }
-);
+});
 
-document.addEventListener(
-  'visibilitychange',
-  () => {
-    if (document.hidden && running) {
-      void stopCamera(false);
-    }
+document.addEventListener('visibilitychange',() => {
+  if (document.hidden && running) {
+    void stopCamera(false);
   }
-);
+});
 
-setControls();
+// AVVIO
+
+options();
+updateControls();
+updateCounts();
 
 status(
   ready()
-    ? 'Scanner pronto. Scegli la modalità e premi AVVIA SCANSIONE IN DIRETTA.'
-    : 'JavaScript attivo, ma libreria scanner non caricata.',
-  ready() ? 'success' : 'error'
+    ? 'Scanner pronto. Premi AVVIA SCANSIONE IN DIRETTA.'
+    : 'Libreria scanner non caricata. Controlla Internet.',
+  ready() ? 'ok' : 'error'
 );
-</script>
 
+</script>
 </body>
 </html>
