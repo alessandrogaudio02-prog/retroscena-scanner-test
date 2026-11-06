@@ -5,319 +5,272 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#123b30">
-<title>Retróscena · Smart Scanner 1.0.7</title>
-
+<title>Retróscena · Smart Scanner 1.0.8</title>
 <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-
 <style>
 :root{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#18372d;background:#f2f5f2}
-*{box-sizing:border-box}
-body{margin:0}
-main{max-width:650px;margin:auto;padding:15px 13px 55px}
+*{box-sizing:border-box}body{margin:0}main{max-width:650px;margin:auto;padding:15px 13px 55px}
 header{border-radius:19px;background:#13392f;color:#fff;padding:22px 19px;margin-bottom:13px}
-h1{font-size:26px;letter-spacing:.035em;margin:0}
-header p{font-size:12px;letter-spacing:.06em;color:#bcd3c5;margin:6px 0 0}
+h1{font-size:26px;letter-spacing:.035em;margin:0}header p{font-size:12px;letter-spacing:.06em;color:#bcd3c5;margin:6px 0 0}
 .card{background:#fff;border:1px solid #dce5df;border-radius:16px;padding:17px;margin-bottom:12px}
 .topline{display:flex;gap:8px;justify-content:space-between;align-items:center;margin-bottom:12px}
-small,.hint{font-size:12px;color:#617469;line-height:1.5}
-h2{font-size:18px;margin:0 0 12px}
+small,.hint{font-size:12px;color:#617469;line-height:1.5}h2{font-size:18px;margin:0 0 12px}
 label{display:block;font-weight:700;font-size:13px;margin:11px 0 7px}
 button,input,select{font:inherit}
 button{border:0;border-radius:12px;width:100%;padding:14px 10px;font-size:15px;font-weight:750;cursor:pointer;margin:6px 0}
-button:disabled{opacity:.43}
-button.main{color:#fff;background:#153f32}
-button.alt{background:#e7f0e9;color:#164333}
+button:disabled{opacity:.43}button.main{color:#fff;background:#153f32}button.alt{background:#e7f0e9;color:#164333}
 button.op{background:#ecf1ed;color:#244436;border:2px solid #e3ebe5}
 button.op.selected{background:#174a38;border-color:#174a38;color:#fff}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:9px}
-.grid2 button{margin:0}
+button.warn{background:#f9eae7;color:#99443b}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:9px}.grid2 button{margin:0}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}.grid3 button{margin:0;padding:14px 5px;font-size:13px;letter-spacing:.01em}
 input[type=text],select,input[type=number]{width:100%;border:1px solid #b8c9be;border-radius:10px;font-size:16px;padding:12px;background:#fff;color:#17362a}
 #reader{width:100%;background:#19332b;border-radius:11px;overflow:hidden;min-height:115px}
-#reader video{object-fit:cover}
-#status{font-size:13px;line-height:1.5;white-space:pre-wrap;margin:12px 0 5px;overflow-wrap:anywhere}
+#reader video{object-fit:cover}#status{font-size:13px;line-height:1.5;white-space:pre-wrap;margin:12px 0 5px;overflow-wrap:anywhere}
 #productName{font-weight:800;font-size:20px;line-height:1.3;margin:4px 0 7px}
 #barcodeText{font-size:12px;color:#5a6d61;overflow-wrap:anywhere}
 #origin{font-size:12px;line-height:1.45;white-space:pre-wrap;margin:9px 0;color:#7b6354}
 #last{white-space:pre-wrap;font-size:13px;margin-top:10px;line-height:1.5;color:#226845}
-.group{margin:13px 0}
-summary{list-style:none;cursor:pointer;font-weight:800;padding:7px 0;font-size:15px}
-summary::-webkit-details-marker{display:none}
-summary:before{content:'＋ ';font-weight:900}
-details[open] summary:before{content:'－ '}
+.group{margin:13px 0}#newBox[open]{background:#fff}summary{list-style:none;cursor:pointer;font-weight:800;padding:7px 0;font-size:15px}
+summary::-webkit-details-marker{display:none}summary:before{content:'＋ ';font-weight:900}details[open] summary:before{content:'－ '}
 #qrBox{margin:12px 0;padding:14px;border:1px dashed #b5c9bb;border-radius:12px;text-align:center}
-#qrCode{display:flex;justify-content:center;margin:10px auto}
-#qrCode img,#qrCode canvas{margin:auto}
+#qrCode{display:flex;justify-content:center;margin:10px auto}#qrCode img,#qrCode canvas{margin:auto}
 .tag{display:inline-block;border-radius:20px;padding:6px 11px;background:#e7f0ea;font-size:11px;font-weight:750}
-.hidden{display:none!important}
-.ok{color:#176c42}
-.error{color:#af322b}
-@media print{
-body *{visibility:hidden!important}
-#qrBox,#qrBox *{visibility:visible!important}
-#qrBox{position:absolute;left:35px;top:25px;width:300px;border:0}
-#qrPrint{display:none}
-}
+.hidden{display:none!important}.ok{color:#176c42}.error{color:#af322b}
+@media print{body *{visibility:hidden!important}#qrBox,#qrBox *{visibility:visible!important}#qrBox{position:absolute;left:35px;top:25px;width:300px;border:0}#qrPrint{display:none}}
 </style>
 </head>
-
-<body>
-<main>
-<header>
-<h1>RETRÓSCENA</h1>
-<p>SMART SCANNER 1.0.7 · COLLAUDO · COSTO ZERO</p>
-</header>
-
+<body><main>
+<header><h1>RETRÓSCENA</h1><p>SMART SCANNER 1.0.8 · COLLAUDO</p></header>
 <section class="card">
-<div class="topline">
-<h2>Scansiona prodotto</h2>
-<span class="tag">UN SOLO TASTO</span>
-</div>
-<button id="cameraButton" class="main" type="button">📷 SCANSIONA PRODOTTO</button>
-<div id="reader"></div>
-<div id="status" role="status" aria-live="polite">Inizializzazione...</div>
-<small>La fotocamera usa automaticamente una risoluzione elevata per barcode grandi e piccoli. Non servono fotografie.</small>
+ <div class="topline"><h2>Scansiona prodotto</h2><span class="tag">UN SOLO TASTO</span></div>
+ <button id="cameraButton" class="main" type="button">📷 SCANSIONA PRODOTTO</button>
+ <div id="reader"></div>
+ <div id="status" role="status" aria-live="polite">Inizializzazione...</div>
+ <small>La fotocamera usa automaticamente una risoluzione elevata per barcode grandi e piccoli. Non servono fotografie.</small>
 </section>
-
 <section class="card" id="movePanel">
-<h2>Prodotto e movimento</h2>
-<div id="productName">Nessun prodotto riconosciuto</div>
-<div id="barcodeText">Inquadra il codice del prodotto per iniziare.</div>
-<div id="origin"></div>
-<div class="group">
-<label for="quantity">Quantità (pezzi)</label>
-<select id="quantity" aria-label="Quantità da registrare"></select>
-<input id="customQuantity" type="number" inputmode="numeric" min="1" max="999" step="1" class="hidden" placeholder="Quantità da 1 a 999" aria-label="Altra quantità">
-</div>
-<label>Tipo di movimento</label>
-<div class="grid2">
-<button id="sold" class="op" type="button" aria-pressed="false">VENDUTO</button>
-<button id="used" class="op" type="button" aria-pressed="false">CONSUMATO</button>
-</div>
-<button id="register" class="main" type="button" disabled>REGISTRA TEST</button>
-<div id="last">Nessun movimento registrato.</div>
-<small>Durante il collaudo salva solo una prova su questo iPad. Non è collegato a Google Fogli e non scala la giacenza.</small>
+ <h2>Prodotto e movimento</h2>
+ <div id="productName">Nessun prodotto riconosciuto</div>
+ <div id="barcodeText">Inquadra il codice del prodotto per iniziare.</div>
+ <div id="origin"></div>
+ <div class="group">
+  <label for="quantity">Quantità (pezzi)</label>
+  <select id="quantity" aria-label="Quantità da registrare"></select>
+  <input id="customQuantity" type="number" inputmode="numeric" min="1" max="999" step="1" class="hidden" placeholder="Quantità da 1 a 999" aria-label="Altra quantità">
+ </div>
+ <label>Tipo di movimento</label>
+ <div class="grid3"><button id="sold" class="op" type="button" aria-pressed="false">VENDUTO</button><button id="used" class="op" type="button" aria-pressed="false">CONSUMATO</button><button id="gift" class="op" type="button" aria-pressed="false">OMAGGIO</button></div>
+ <button id="register" class="main" type="button" disabled>REGISTRA TEST</button>
+ <div id="last">Nessun movimento registrato.</div>
+ <small>Durante il collaudo salva solo una prova su questo iPad. Non è collegato a Google Fogli e non scala la giacenza.</small>
 </section>
-
 <section class="card">
-<details id="newBox">
-<summary>AGGIUNGI NUOVO PRODOTTO</summary>
-<small>Serve per un articolo nuovo oppure per associare un barcode non conosciuto a un articolo già nel catalogo. Le nuove associazioni restano su questo iPad.</small>
-<label for="linkSearch">Cerca un prodotto già presente</label>
-<input id="linkSearch" type="text" placeholder="Cerca per nome o codice" autocomplete="off">
-<label for="existing">Prodotto già presente (selezione facoltativa)</label>
-<select id="existing">
-<option value="">Non è nell'elenco: creo un articolo nuovo</option>
-</select>
-<div id="newFields">
-<label for="newName">Nome del nuovo prodotto</label>
-<input id="newName" type="text" maxlength="140" placeholder="Es. Nuovo gel 250 ml">
-<label for="newSupplier">Fornitore</label>
-<select id="newSupplier">
-<option value="DAVINES">Davines</option>
-<option value="PRO BIG">Pro Big</option>
-<option value="PRODOTTI-RECUPERO">Prodotti recupero</option>
-<option value="RETRÓSCENA">Retróscena</option>
-<option value="ALTRO">Altro</option>
-</select>
-</div>
-<label for="newBarcode">Barcode letto (facoltativo)</label>
-<input id="newBarcode" type="text" placeholder="Si riempie da solo dopo una scansione">
-<button id="saveProduct" class="alt" type="button">SALVA PRODOTTO / ASSOCIAZIONE</button>
-<div id="addStatus" aria-live="polite" class="hint"></div>
-<div id="qrBox" class="hidden">
-<strong>Etichetta QR per barcode illeggibile</strong>
-<div id="qrCode"></div>
-<div id="qrTitle"></div>
-<small>Se una confezione non è leggibile, puoi applicare questa etichetta. La stessa fotocamera la riconoscerà senza scattare foto.</small>
-<button id="qrPrint" class="alt" type="button">STAMPA ETICHETTA</button>
-</div>
-</details>
+ <details id="newBox">
+  <summary>AGGIUNGI NUOVO PRODOTTO</summary>
+  <small>Serve per un articolo nuovo oppure per associare un barcode non ancora conosciuto a un articolo già nel catalogo. Le nuove associazioni restano su questo iPad.</small>
+  <label for="linkSearch">Cerca un prodotto già presente</label>
+  <input id="linkSearch" type="text" placeholder="Cerca per nome o codice" autocomplete="off">
+  <label for="existing">Prodotto già presente (selezione facoltativa)</label>
+  <select id="existing"><option value="">Non è nell'elenco: creo un articolo nuovo</option></select>
+  <div id="newFields">
+   <label for="newName">Nome del nuovo prodotto</label>
+   <input id="newName" type="text" maxlength="140" placeholder="Es. Nuovo gel 250 ml">
+   <label for="newSupplier">Fornitore</label>
+   <select id="newSupplier"><option value="DAVINES">Davines</option><option value="PRO BIG">Pro Big</option><option value="PRODOTTI-RECUPERO">Prodotti recupero</option><option value="RETRÓSCENA">Retróscena</option><option value="ALTRO">Altro</option></select>
+  </div>
+  <label for="newBarcode">Barcode letto (facoltativo)</label>
+  <input id="newBarcode" type="text" inputmode="text" placeholder="Si riempie da solo dopo una scansione">
+  <button id="saveProduct" class="alt" type="button">SALVA PRODOTTO / ASSOCIAZIONE</button>
+  <div id="addStatus" aria-live="polite" class="hint"></div>
+  <div id="qrBox" class="hidden">
+   <strong>Etichetta QR per barcode illeggibile</strong>
+   <div id="qrCode"></div>
+   <div id="qrTitle"></div>
+   <small>Se una confezione non è leggibile, puoi applicare questa etichetta. La stessa fotocamera la riconoscerà senza scattare foto.</small>
+   <button id="qrPrint" class="alt" type="button">STAMPA ETICHETTA</button>
+  </div>
+ </details>
 </section>
-
-<small>Le foto non vengono caricate online. Il riconoscimento visivo della sola confezione richiede foto di riferimento e un modello dedicato: non è ancora attivo.</small>
+<small>Le foto non vengono caricate online. I dati del catalogo e le associazioni apprese sono salvati localmente. Il riconoscimento visivo della sola confezione richiede foto di riferimento e un modello dedicato: non è ancora attivo.</small>
 </main>
-
 <script>
 'use strict';
-
-// CATALOGO — 171 PRODOTTI
 const PRODUCTS_BASE=[
-["75642","DEDE shampoo 1000ml","DAVINES",0],
-["75628","DEDE shampoo 250ml","DAVINES",0],
-["75643","DEDE shampoo 75ml","DAVINES",0],
-["75549","DEDE conditioner 1000ml","DAVINES",0],
-["75609","DEDE conditioner 250ml","DAVINES",0],
-["75550","DEDE conditioner 75ml","DAVINES",0],
-["75022","DEDE hair mist 250ml","DAVINES",0],
-["75525","LOVE CURL shampoo ricci 1000ml","DAVINES",0],
-["75524","LOVE CURL shampoo ricci 250ml","DAVINES",0],
-["75526","LOVE CURL shampoo ricci 75ml","DAVINES",0],
-["75528","LOVE CURL conditioner ricci 1000ml","DAVINES",0],
-["75606","LOVE CURL conditioner ricci 250ml","DAVINES",0],
-["75529","LOVE CURL conditioner ricci 75ml","DAVINES",0],
-["75540","LOVE CURL curl cream 150ml","DAVINES",0],
-["75659","LOVE CURL curl controller 150ml","DAVINES",0],
-["75587","LOVE shampoo capelli crespi 1000ml","DAVINES",0],
-["75586","LOVE shampoo capelli crespi 250ml","DAVINES",0],
-["75591","LOVE shampoo capelli crespi 75ml","DAVINES",0],
-["75590","LOVE hair smoother 150ml","DAVINES",0],
-["75585","LOVE Quick mask 1000ml","DAVINES",0],
-["75584","LOVE Quick mask 250ml","DAVINES",0],
-["75650","LOVE Quick mask 75ml","DAVINES",0],
-["75053","VOLU shampoo 1000ml","DAVINES",0],
-["75052","VOLU shampoo 250ml","DAVINES",0],
-["75083","VOLU shampoo 75ml","DAVINES",0],
-["75055","VOLU hair mist 250ml","DAVINES",0],
-["90156","SU Hair & Body wash 500ml","DAVINES",0],
-["90142","SU Hair & Body wash 75ml","DAVINES",0],
-["90144","SU Hair Milk 135ml","DAVINES",0],
-["90145","SU Hair Milk 50ml","DAVINES",0],
-["90158","SU Aftersun 150ml","DAVINES",0],
-["90160","SU Tan Maximizer 150ml","DAVINES",0],
-["75580","BAR DEDE shampoo BAR 100gr","DAVINES",0],
-["75581","BAR VOLU shampoo BAR 100gr","DAVINES",0],
-["75582","BAR LOVE SMOOTH shampoo BAR 100gr","DAVINES",0],
-["74030","AUTHENTIC Nettare Lavante 280ml","DAVINES",0],
-["74011","AUTHENTIC Moisturizing Balm 150ml","DAVINES",0],
-["76005","OI shampoo 1000ml","DAVINES",0],
-["76004","OI shampoo 280ml","DAVINES",0],
-["76006","OI shampoo 90ml","DAVINES",0],
-["76037","OI hair butter 1000ml","DAVINES",0],
-["76038","OI hair butter 250ml","DAVINES",0],
-["76039","OI hair butter 75ml","DAVINES",0],
-["76017","OI body wash 280ml","DAVINES",0],
-["76125","OI body wash 90ml","DAVINES",0],
-["71328","ELEVATING Scalp recovery treatment 100ml","DAVINES",0],
-["71329","ELEVATING Clay Supercleanser 100gr","DAVINES",0],
-["71332","ELEVATING Massage Oil 100ml","DAVINES",0],
-["71327","ELEVATING Fragrance 250ml","DAVINES",0],
-["71244","RENEWING shampoo 1000ml","DAVINES",0],
-["71243","RENEWING shampoo 250ml","DAVINES",0],
-["71279","RENEWING shampoo 100ml","DAVINES",0],
-["71246","RENEWING conditioning treatment 1000ml","DAVINES",0],
-["71245","RENEWING conditioning treatment 250ml","DAVINES",0],
-["71280","RENEWING conditioning treatment 60ml","DAVINES",0],
-["71253","ENERGIZING shampoo 1000ml","DAVINES",0],
-["71252","ENERGIZING shampoo 250ml","DAVINES",0],
-["71251","ENERGIZING shampoo 100ml","DAVINES",0],
-["71334","ENERGIZING seasonal superactive 100ml","DAVINES",0],
-["71333","ENERGIZING superactive anytime 100ml","DAVINES",0],
-["71336","ENERGIZING thickening tonic 100ml","DAVINES",0],
-["71213","PURIFYING shampoo 1000ml","DAVINES",0],
-["71212","PURIFYING shampoo 250ml","DAVINES",0],
-["71211","PURIFYING shampoo 100ml","DAVINES",0],
-["71408","PURIFYING gel 150ml","DAVINES",0],
-["71330","REBALANCING cleansing treatment 1000ml","DAVINES",0],
-["71331","REBALANCING cleansing treatment 250ml","DAVINES",0],
-["71348","REBALANCING shampoo 1000ml","DAVINES",0],
-["71345","REBALANCING shampoo 250ml","DAVINES",0],
-["71347","REBALANCING shampoo 100ml","DAVINES",0],
-["71270","DETOXIFYING scrub shampoo 1000ml","DAVINES",0],
-["71267","WELLBEING shampoo 1000ml","DAVINES",0],
-["71261","WELLBEING shampoo 250ml","DAVINES",0],
-["71281","WELLBEING shampoo 100ml","DAVINES",0],
-["71175","WELLBEING conditioner 1000ml","DAVINES",0],
-["71174","WELLBEING conditioner 150ml","DAVINES",0],
-["71208","WELLBEING conditioner 60ml","DAVINES",0],
-["71268","CALMING shampoo 1000ml","DAVINES",0],
-["71262","CALMING shampoo 250ml","DAVINES",0],
-["71282","CALMING shampoo 100ml","DAVINES",0],
-["71225","CALMING superactive 100ml","DAVINES",0],
-["87072","MORE INSIDE Spray lucidante 200ml","DAVINES",0],
-["87113","MORE INSIDE Shampoo secco 250ml","DAVINES",0],
-["87006","MORE INSIDE Siero invisibile 50ml","DAVINES",0],
-["87131","MORE INSIDE Pasta duttile media 125ml","DAVINES",0],
-["87066","MORE INSIDE Gomma texturizzante 75ml","DAVINES",0],
-["87067","MORE INSIDE Cera forte asciutta 75ml","DAVINES",0],
-["87068","MORE INSIDE Argilla modellante 75ml","DAVINES",0],
-["87086","MORE INSIDE Oil non oil 250ml","DAVINES",0],
-["87012","MORE INSIDE Gel tenuta media 250ml","DAVINES",0],
-["87132","MORE INSIDE Gel tenuta forte 125ml","DAVINES",0],
-["87130","MORE INSIDE Crea ricci 250ml","DAVINES",0],
-["87139","MORE INSIDE Crea ricci 100ml","DAVINES",0],
-["87114","MORE INSIDE MI Curl Gel Oil 250ml","DAVINES",0],
-["87085","MORE INSIDE Sea Salt Spray 250ml","DAVINES",0],
-["87093","MORE INSIDE Sea Salt Spray 100ml","DAVINES",0],
-["87017","MORE INSIDE Polvere texturizzante 8gr","DAVINES",0],
-["87055","MORE INSIDE Cera illuminante 75ml","DAVINES",0],
-["87057","MORE INSIDE Pomade per plasmare 75ml","DAVINES",0],
-["87126","MORE INSIDE Dry Wax 200ml","DAVINES",0],
-["93000","PASTA&LOVE Softening Shaving Gel 200ml","DAVINES",0],
-["93001","PASTA&LOVE Aftershave & Moist 100ml","DAVINES",0],
-["93002","PASTA&LOVE Pre-Shaving Beard Oil 50ml","DAVINES",0],
-["93011","PASTA&LOVE Shaving Gel 150ml","DAVINES",0],
-["93022","PASTA&LOVE Styling Paste 125ml","DAVINES",0],
-["93013","PASTA&LOVE Styling Clay 50ml","DAVINES",0],
-["93015","PASTA&LOVE Hair Beard & Body Wash 300ml","DAVINES",0],
-["93016","PASTA&LOVE Medium Fiber Cream 50ml","DAVINES",0],
-["PB-002","Muran Spicy Spray fissativo 300ml","PRO BIG",1],
-["PB-003","Ktime Glam Runway Lacca 500ml","PRO BIG",1],
-["PB-004","Ktime Glam Runway Lacca 100ml","PRO BIG",1],
-["PB-005","Barbapapà Apache Spray 400ml","PRO BIG",1],
-["PB-006","Kelité Shaving Cream 500ml","PRO BIG",1],
-["PB-007","Kelité Shaving Gel 1000ml","PRO BIG",1],
-["PB-008","Kelité Crema Dopobarba Anti Age 200ml","PRO BIG",1],
-["PB-013","Fono Parlux 2800","PRO BIG",1],
-["PB-014","Veline Royal 100 pezzi","PRO BIG",1],
-["PB-015","Asciugamano H.Tech 63 pezzi","PRO BIG",1],
-["PB-016","Cotone idrofilo 400g","PRO BIG",1],
-["PB-017","Ktime Let's Clean 250ml","PRO BIG",1],
-["PB-018","Schermo Color Protect 200ml","PRO BIG",1],
-["PB-019","Rotolo carta collo nero Eurostil","PRO BIG",1],
-["PB-020","Guanti nitrile Royal S 100 pezzi","PRO BIG",1],
+["75642","DEDE · shampoo · 1000ml","DAVINES",0],
+["75628","DEDE · shampoo · 250ml","DAVINES",0],
+["75643","DEDE · shampoo · 75ml","DAVINES",0],
+["75549","DEDE · conditioner · 1000ml","DAVINES",0],
+["75609","DEDE · conditioner · 250ml","DAVINES",0],
+["75550","DEDE · conditioner · 75ml","DAVINES",0],
+["75022","DEDE · hair mist · 250ml","DAVINES",0],
+["75525","LOVE CURL · shampoo capelli ricci · 1000ml","DAVINES",0],
+["75524","LOVE CURL · shampoo capelli ricci · 250ml","DAVINES",0],
+["75526","LOVE CURL · shampoo capelli ricci · 75ml","DAVINES",0],
+["75528","LOVE CURL · conditioner capelli ricci · 1000ml","DAVINES",0],
+["75606","LOVE CURL · conditioner capelli ricci · 250ml","DAVINES",0],
+["75529","LOVE CURL · conditioner capelli ricci · 75ml","DAVINES",0],
+["75540","LOVE CURL · curl cream · 150ml","DAVINES",0],
+["75659","LOVE CURL · curl controller · 150ml","DAVINES",0],
+["75587","LOVE · shampoo capelli crespi · 1000ml","DAVINES",0],
+["75586","LOVE · shampoo capelli crespi · 250ml","DAVINES",0],
+["75591","LOVE · shampoo capelli crespi · 75ml","DAVINES",0],
+["75590","LOVE · hair smoother · 150ml","DAVINES",0],
+["75585","LOVE · Quick mask · 1000ml","DAVINES",0],
+["75584","LOVE · Quick mask · 250ml","DAVINES",0],
+["75650","LOVE · Quick mask · 75ml","DAVINES",0],
+["75053","VOLU · shampoo · 1000ml","DAVINES",0],
+["75052","VOLU · shampoo · 250ml","DAVINES",0],
+["75083","VOLU · shampoo · 75ml","DAVINES",0],
+["75055","VOLU · hair mist · 250ml","DAVINES",0],
+["90156","SU · Hair & Body wash · 500ml","DAVINES",0],
+["90142","SU · Hair & Body wash · 75ml","DAVINES",0],
+["90144","SU · Hair Milk · 135ml","DAVINES",0],
+["90145","SU · Hair Milk · 50ml","DAVINES",0],
+["90158","SU · Aftersun · 150ml","DAVINES",0],
+["90160","SU · Tan Maximizer · 150ml","DAVINES",0],
+["75580","BAR · DEDE shampoo BAR · 100gr","DAVINES",0],
+["75581","BAR · VOLU shampoo BAR · 100gr","DAVINES",0],
+["75582","BAR · LOVE SMOOTH shampoo BAR · 100gr","DAVINES",0],
+["74030","AUTHENTIC · Nettare Lavante · 280ml","DAVINES",0],
+["74011","AUTHENTIC · Moisturizing Balm · 150ml","DAVINES",0],
+["76005","OI · shampoo · 1000ml","DAVINES",0],
+["76004","OI · shampoo · 280ml","DAVINES",0],
+["76006","OI · shampoo · 90ml","DAVINES",0],
+["76037","OI · hair butter · 1000ml","DAVINES",0],
+["76038","OI · hair butter · 250ml","DAVINES",0],
+["76039","OI · hair butter · 75ml","DAVINES",0],
+["76017","OI · body wash · 280ml","DAVINES",0],
+["76125","OI · body wash · 90ml","DAVINES",0],
+["71328","ELEVATING · Elevating Scalp recovery treatment · 100ml","DAVINES",0],
+["71329","ELEVATING · Elevating Clay Supercleanser · 100gr","DAVINES",0],
+["71332","ELEVATING · Elevating Massage Oil · 100ml","DAVINES",0],
+["71327","ELEVATING · Elevating Fragrance · 250ml","DAVINES",0],
+["71244","RENEWING · Renewing shampoo · 1000ml","DAVINES",0],
+["71243","RENEWING · Renewing shampoo · 250ml","DAVINES",0],
+["71279","RENEWING · Renewing shampoo · 100ml","DAVINES",0],
+["71246","RENEWING · Renewing conditioning treatment · 1000ml","DAVINES",0],
+["71245","RENEWING · Renewing conditioning treatment · 250ml","DAVINES",0],
+["71280","RENEWING · Renewing conditioning treatment · 60ml","DAVINES",0],
+["71253","ENERGIZING · Energizing shampoo · 1000ml","DAVINES",0],
+["71252","ENERGIZING · Energizing shampoo · 250ml","DAVINES",0],
+["71251","ENERGIZING · Energizing shampoo · 100ml","DAVINES",0],
+["71334","ENERGIZING · Energizing seasonal superactive · 100ml","DAVINES",0],
+["71333","ENERGIZING · Energizing superactive anytime · 100ml","DAVINES",0],
+["71336","ENERGIZING · Energizing thickening tonic · 100ml","DAVINES",0],
+["71213","PURIFYING · Purifying shampoo · 1000ml","DAVINES",0],
+["71212","PURIFYING · Purifying shampoo · 250ml","DAVINES",0],
+["71211","PURIFYING · Purifying shampoo · 100ml","DAVINES",0],
+["71408","PURIFYING · Purifying gel · 150ml","DAVINES",0],
+["71330","REBALANCING · Rebalancing cleansing treatment · 1000ml","DAVINES",0],
+["71331","REBALANCING · Rebalancing cleansing treatment · 250ml","DAVINES",0],
+["71348","REBALANCING · Rebalancing shampoo · 1000ml","DAVINES",0],
+["71345","REBALANCING · Rebalancing shampoo · 250ml","DAVINES",0],
+["71347","REBALANCING · Rebalancing shampoo · 100ml","DAVINES",0],
+["71270","DETOXIFYING · Detoxifying scrub shampoo · 1000ml","DAVINES",0],
+["71267","WELLBEING · Well Being shampoo · 1000ml","DAVINES",0],
+["71261","WELLBEING · Well Being shampoo · 250ml","DAVINES",0],
+["71281","WELLBEING · Well Being shampoo · 100ml","DAVINES",0],
+["71175","WELLBEING · Well Being conditioner · 1000ml","DAVINES",0],
+["71174","WELLBEING · Well Being conditioner · 150ml","DAVINES",0],
+["71208","WELLBEING · Well Being conditioner · 60ml","DAVINES",0],
+["71268","CALMING · Calming shampoo · 1000ml","DAVINES",0],
+["71262","CALMING · Calming shampoo · 250ml","DAVINES",0],
+["71282","CALMING · Calming shampoo · 100ml","DAVINES",0],
+["71225","CALMING · Calming superactive · 100ml","DAVINES",0],
+["87072","MORE INSIDE · SPRAY LUCIDANTE CON GAS/shimmering mist · 200ml","DAVINES",0],
+["87113","MORE INSIDE · SHAMPOO SECCO/dry shampoo · 250ml","DAVINES",0],
+["87006","MORE INSIDE · SIERO INVISIBILE/invisible serum · 50ml","DAVINES",0],
+["87131","MORE INSIDE · PASTA DUTTILE MEDIA/medium hold finishing gum · 125ml","DAVINES",0],
+["87066","MORE INSIDE · GOMMA TEXTURIZZANTE/medium hold finishing gum · 75ml","DAVINES",0],
+["87067","MORE INSIDE · CERA FORTE ASCIUTTA/strong dry wax · 75ml","DAVINES",0],
+["87068","MORE INSIDE · ARGILLA MODELLANTE/strong moulding clay · 75ml","DAVINES",0],
+["87086","MORE INSIDE · OIL NON OIL/oil non oil · 250ml","DAVINES",0],
+["87012","MORE INSIDE · GEL TENUTA MEDIA/medium hold gel · 250ml","DAVINES",0],
+["87132","MORE INSIDE · GEL TENUTA FORTE/strong hold cream gel · 125ml","DAVINES",0],
+["87130","MORE INSIDE · CREA RICCI/curl building serum · 250ml","DAVINES",0],
+["87139","MORE INSIDE · CREA RICCI/curl building serum · 100ml","DAVINES",0],
+["87114","MORE INSIDE · MI CURL GEL OIL · 250ml","DAVINES",0],
+["87085","MORE INSIDE · SEA SALT SPRAY/sea salt spray · 250ml","DAVINES",0],
+["87093","MORE INSIDE · SEA SALT SPRAY/sea salt spray · 100ml","DAVINES",0],
+["87017","MORE INSIDE · POLVERE TEXTURIZZANTE/texturizing powder · 8gr","DAVINES",0],
+["87055","MORE INSIDE · CERA ILLUMINANTE/shine wax · 75ml","DAVINES",0],
+["87057","MORE INSIDE · POMADE PER PLASMARE/forming pomade · 75ml","DAVINES",0],
+["87126","MORE INSIDE · DRY WAX · 200ml","DAVINES",0],
+["93000","PASTA&LOVE · PASTA&LOVE SOFTENING SHAVING / GEL · 200ml","DAVINES",0],
+["93001","PASTA&LOVE · PASTA&LOVE AFTERSHAVE&MOIST · 100ml","DAVINES",0],
+["93002","PASTA&LOVE · PASTA&LOVE PRE-SHAVING&BEARD / OIL · 50ml","DAVINES",0],
+["93011","PASTA&LOVE · PASTA&LOVE SHAVING GEL · 150ml","DAVINES",0],
+["93022","PASTA&LOVE · PASTA&LOVE STYLING PASTE · 125ml","DAVINES",0],
+["93013","PASTA&LOVE · PASTA&LOVE STYLING CLAY · 50ml","DAVINES",0],
+["93015","PASTA&LOVE · P&L HAIR BEARD&BODY WASH · 300ml","DAVINES",0],
+["93016","PASTA&LOVE · P&L MEDIUM FIBER CREAM · 50ml","DAVINES",0],
+["PB-002","Muran spicy spray fissativo 300ml","PRO BIG",1],
+["PB-003","K time Glam Runway lacca **GRANDE** b.500 ml","PRO BIG",1],
+["PB-004","K time Glam Runway lacca **piccola** b.100 ml","PRO BIG",1],
+["PB-005","Dopobarba Apache spray 400 ml anti irritazione con estratto di melaleuca","PRO BIG",1],
+["PB-006","Kelitè Shaving creme 500ml crema da rasatura","PRO BIG",1],
+["PB-007","Kelitè Shaving Gel 1000ml gel da rasatura","PRO BIG",1],
+["PB-008","Kelitè crema dopobarba anti age 200ml","PRO BIG",1],
+["PB-013","FONO PARLUX 2800 NIC *ERR-30*","PRO BIG",1],
+["PB-014","Veline royal cf 100 ps","PRO BIG",1],
+["PB-015","Asciugasano 63 pz h.tech pieg cart. 10 pz","PRO BIG",1],
+["PB-016","Cotone idrofilo B.400 gr","PRO BIG",1],
+["PB-017","K Time smacchiat. Liq Let's clean 250 ml","PRO BIG",1],
+["PB-018","Schermoo color protect gr. Vaso 200 ml","PRO BIG",1],
+["PB-019","Rotolo Carta collo nero eurostil ref 06596","PRO BIG",1],
+["PB-020","Guanti neri nitr.mis s cf 100 pz royal","PRO BIG",1],
 ["PB-021","Guanti Lattice","PRO BIG",1],
-["PB-022","Barbapapà Lubrificante 5 in 1 400ml","PRO BIG",1],
-["PB-023","Mantelle monouso tinta 30 pezzi","PRO BIG",1],
-["PB-024","Marsupio porta attrezzi","PRO BIG",1],
-["PB-025","Fono Muster 2500","PRO BIG",1],
-["PB-026","Rasoio Daune","PRO BIG",1],
-["PB-027","Rasoio mezza lama Magic","PRO BIG",1],
-["PB-028","Rasoio Wahl Mobile Shaver","PRO BIG",1],
-["PB-029","Tosatrice Muster Cayman","PRO BIG",1],
-["PB-030","Spazzola 263 Superior barba","PRO BIG",1],
-["PB-031","Diffusore Giubbra","PRO BIG",1],
-["PB-032","Spazzola Denman D143","PRO BIG",1],
-["PB-033","Spazzola Denman D3 Nordic Ice","PRO BIG",1],
-["PB-034","Spazzola Denman Fade Brush","PRO BIG",1],
-["PB-035","Minerva emostatici","PRO BIG",1],
-["PB-036","Spazzola Pensilvania Giubbra 769","PRO BIG",1],
-["PB-037","Scovolo 0211 VI","PRO BIG",1],
-["PB-038","Scovolo 0210 V","PRO BIG",1],
-["PB-039","Scovolo 0209 IV","PRO BIG",1],
-["PB-040","Scovolo 0208 III","PRO BIG",1],
-["PB-041","Scovolo 0207 I","PRO BIG",1],
+["PB-022","Lubrificante Barbapapà 5 in 1 b.400ML","PRO BIG",1],
+["PB-023","Mantel. Monouso tinta gmd cf 30 pz","PRO BIG",1],
+["PB-024","marsupio porta attrezzi","PRO BIG",1],
+["PB-025","Fono Mustern2500 compatto nero","PRO BIG",1],
+["PB-026","Rasoio Daune nic *err-12**","PRO BIG",1],
+["PB-027","rasoion 1/2 lama magic err_10_","PRO BIG",1],
+["PB-028","rasoio wahl mobile shaver corddle","PRO BIG",1],
+["PB-029","To muster cayman ref 57066","PRO BIG",1],
+["PB-030","spazz. 263 superior ovale x barba","PRO BIG",1],
+["PB-031","diffusore giubbra","PRO BIG",1],
+["PB-032","spazzola denman d143 5 file","PRO BIG",1],
+["PB-033","spazzola denman d3 7 file azzurra nordic ice","PRO BIG",1],
+["PB-034","Spazzola Denman fade brush","PRO BIG",1],
+["PB-035","Minerva emostatici nic legno","PRO BIG",1],
+["PB-036","Spazz Pensilvania giubbra ref 769","PRO BIG",1],
+["PB-037","scovolo 0211 VI mis setola","PRO BIG",1],
+["PB-038","Scovolo 0210 V mis diam 30 legno setola","PRO BIG",1],
+["PB-039","Scovolo 0209 IV mis diam 26 legno","PRO BIG",1],
+["PB-040","Scovolo 0208 III mis diam 22 legno","PRO BIG",1],
+["PB-041","Scovolo 0207 I mis diam 18 legno","PRO BIG",1],
 ["PB-042","Spruzzo Floyd","PRO BIG",1],
-["PB-043","Baljé Shampoo 5 litri","PRO BIG",1],
-["PB-044","Lame Astra Verdi 100 pezzi","PRO BIG",1],
-["8034076295543","Scopa Mirella nera 27cm","PRODOTTI-RECUPERO",0],
-["S.178","Paletta rossa/blu con manico","PRODOTTI-RECUPERO",0],
-["8055386741490","Ricambio mop microfibra 200g","PRODOTTI-RECUPERO",0],
-["5041","Secchio Easy 14 litri","PRODOTTI-RECUPERO",0],
-["712","Manico nero metallo 130cm","PRODOTTI-RECUPERO",0],
-["00TOP55R60TR","Sacchi trasparenti Top Sac 55x65","PRODOTTI-RECUPERO",0],
-["00TOP70R45AZ","Sacchi azzurri Top Sac 70x110","PRODOTTI-RECUPERO",0],
-["8051884503332","Panno microfibra 35x35 confezione 5","PRODOTTI-RECUPERO",0],
-["S.456P","Panno microfibra nero","PRODOTTI-RECUPERO",0],
-["302008554012","Panno microfibra vetri 40x50","PRODOTTI-RECUPERO",0],
-["35S","Spugna accoppiata 14x10","PRODOTTI-RECUPERO",0],
-["120323","Carta igienica Tork T4 4 rotoli","PRODOTTI-RECUPERO",0],
-["75204","Bicchieri trasparenti 200cc","PRODOTTI-RECUPERO",0],
-["64379","Bicchieri carta 75ml","PRODOTTI-RECUPERO",0],
-["140501","Vetrinex detergente vetri","PRODOTTI-RECUPERO",0],
-["712500","General Multicuat disinfettante","PRODOTTI-RECUPERO",0],
-["1821-S","Sanitec Multi Activ disinfettante","PRODOTTI-RECUPERO",0],
-["7317","Cif detergente parquet e mobili","PRODOTTI-RECUPERO",0],
-["100861325","Cif Wood Polish 750ml","PRODOTTI-RECUPERO",0],
-["LK380607","Sgrassatore igienizzante limone","PRODOTTI-RECUPERO",0],
-["IPER4","Medisan Iper 4 pavimenti","PRODOTTI-RECUPERO",0],
-["800360022052","Detergente lavatrice Soft Blu","PRODOTTI-RECUPERO",0],
-["7210322","Coccolino ammorbidente Professional","PRODOTTI-RECUPERO",0],
-["EXTRA-GEL-BAGNATO","Gel Effetto Bagnato Retróscena Barbieri","RETRÓSCENA",1]
+["PB-043","Te Baljè 5litri shampoo","PRO BIG",1],
+["PB-044","Lame astra vrdi/platin.st 100 l","PRO BIG",1],
+["8034076295543","Scopa mirella nera bassa cm 27 (ct.12","PRODOTTI-RECUPERO",0],
+["S.178","Paletta Rossa/blu con manico","PRODOTTI-RECUPERO",0],
+["8055386741490","Ricambio Mop microfifra grigio a vite gr.200","PRODOTTI-RECUPERO",0],
+["5041","secchio professionale easy blu c/strizzino lt 14","PRODOTTI-RECUPERO",0],
+["712","Manico nero metallo plastificato cm. 130","PRODOTTI-RECUPERO",0],
+["00TOP55R60TR","sacchi n.u. leggeri trasparente 55x65 \"top sac\"","PRODOTTI-RECUPERO",0],
+["00TOP70R45AZ","sacchi n.u. azzurri 70x110 c/maniglie \"top SAC\"","PRODOTTI-RECUPERO",0],
+["8051884503332","Panno micrifibra cm 35x35 colori assortiti pz.5","PRODOTTI-RECUPERO",0],
+["S.456P","Panno microfibra multiuso nero (ct 10) pz.5","PRODOTTI-RECUPERO",0],
+["302008554012","Panno micrioblu vetri mis 40x50 (pannodi altissima qualità)","PRODOTTI-RECUPERO",0],
+["35S","Accoppiato spugna \"cm cook\" cm 14x10x4,4h (ct.12) pz.10","PRODOTTI-RECUPERO",0],
+["120323","Carta Igienica 4 rotoli TORK t4 (n/f) \"str.500 2v\" (cf.7x4p)","PRODOTTI-RECUPERO",0],
+["75204","Bicchiere acqua trasparetnte \"rey\" cc.200 (ct.30) PZ.80","PRODOTTI-RECUPERO",0],
+["64379","bicchiere in carta 2,5 oz ml 75 \"mix color\" (ct.20) pz.50","PRODOTTI-RECUPERO",0],
+["140501","Vetrinex\" detergente per vetri Antistatico (CT.6) ml.7","PRODOTTI-RECUPERO",0],
+["712500","General Multicuat sgrassatore disinfettante antevirucid","PRODOTTI-RECUPERO",0],
+["1821-S","Sanitec multi activ disinfettante superfici (CT.6) ml.75","PRODOTTI-RECUPERO",0],
+["7317","Cif detergente legno parquettes e mobili (CT.&) LT.2","PRODOTTI-RECUPERO",0],
+["100861325","Cif Wood Polish crema x legno e mobili (CT6) ml.6 750","PRODOTTI-RECUPERO",0],
+["LK380607","Sgrassatore igenizzante limone c/trigger likor (CT.6) m","PRODOTTI-RECUPERO",0],
+["IPER4","Medisan iper 4 lavapavimenti disinf. Balsamico P.M.C.","PRODOTTI-RECUPERO",0],
+["800360022052","Detergente Lavatrice \"soft blu\" 50 lav lt 2,25x5 TAN","PRODOTTI-RECUPERO",0],
+["7210322","Coccolino ammorbidente professional \"primavera\" TAN","PRODOTTI-RECUPERO",0],
+["EXTRA-GEL-BAGNATO","Gel Effetto Bagnato · Retróscena Barbieri","RETRÓSCENA",1]
 ];
 
-// BARCODE PRECARICATI
-// H=storico, W=web, F=foto, E=Excel, G=numero stampato
 const BARCODE_BASE=`
 8004608280484|75628|W
 8004608242987|75643|W
@@ -428,14 +381,8 @@ const BARCODE_BASE=`
 8033993192102|PB-008|F
 `;
 
-// MEMORIA LOCALE
 const $=id=>document.getElementById(id);
-
-const STORE={
-  products:'retroscena_extra_prodotti_107',
-  associations:'retroscena_scanner_105_mappings',
-  tests:'retroscena_scanner_105_tests'
-};
+const STORE={products:'retroscena_extra_prodotti_107',associations:'retroscena_scanner_105_mappings',tests:'retroscena_scanner_105_tests'};
 
 function fromStore(key,fallback){
   try{
@@ -443,7 +390,6 @@ function fromStore(key,fallback){
     return x==null?fallback:x;
   }catch(e){return fallback;}
 }
-
 function toStore(key,val){
   try{
     localStorage.setItem(key,JSON.stringify(val));
@@ -462,32 +408,20 @@ if(!Array.isArray(extra))extra=[];
 if(!learned||typeof learned!=='object'||Array.isArray(learned))learned={};
 if(!Array.isArray(tests))tests=[];
 
-const base=PRODUCTS_BASE.map(
-  ([sku,name,supplier,temp])=>({sku,name,supplier,temp:!!temp})
-);
+const base=PRODUCTS_BASE.map(([sku,name,supplier,temp])=>({sku,name,supplier,temp:!!temp}));
 
 function allProducts(){return base.concat(extra);}
 function product(sku){return allProducts().find(x=>x.sku===sku)||null;}
 
 const builtins={};
-
 for(const line of BARCODE_BASE.trim().split('\n')){
   const [barcode,sku,confidence]=line.split('|');
   if(barcode&&sku)builtins[barcode]={sku,confidence};
 }
 
-// INTERFACCIA E SCANSIONE
-
-let scanner=null;
-let active=false;
-let starting=false;
-let stopping=false;
-let epoch=0;
-let selectedSku='';
-let selectedBarcode='';
-let type='';
-let armed=false;
-let zoomTimer=null;
+let scanner=null,active=false,starting=false,stopping=false,epoch=0;
+let selectedSku='',selectedBarcode='',type='',armed=false,zoomTimer=null;
+let currentQR='';
 
 function setStatus(t,cls=''){
   $('status').textContent=t;
@@ -516,15 +450,12 @@ function getBarcode(raw){
 
 function scanReady(){
   return typeof Html5Qrcode!=='undefined' &&
-    typeof Html5QrcodeSupportedFormats!=='undefined';
+         typeof Html5QrcodeSupportedFormats!=='undefined';
 }
 
 function formats(){
   const f=Html5QrcodeSupportedFormats;
-  return [
-    f.EAN_13,f.EAN_8,f.UPC_A,f.UPC_E,
-    f.CODE_128,f.CODE_39,f.ITF,f.QR_CODE
-  ];
+  return [f.EAN_13,f.EAN_8,f.UPC_A,f.UPC_E,f.CODE_128,f.CODE_39,f.ITF,f.QR_CODE];
 }
 
 function chooseType(k){
@@ -532,9 +463,11 @@ function chooseType(k){
 
   $('sold').classList.toggle('selected',k==='VENDUTO');
   $('used').classList.toggle('selected',k==='CONSUMATO');
+  $('gift').classList.toggle('selected',k==='OMAGGIO');
 
   $('sold').setAttribute('aria-pressed',String(k==='VENDUTO'));
   $('used').setAttribute('aria-pressed',String(k==='CONSUMATO'));
+  $('gift').setAttribute('aria-pressed',String(k==='OMAGGIO'));
 
   controls();
 }
@@ -544,13 +477,14 @@ function controls(){
 
   $('cameraButton').disabled=locked;
   $('cameraButton').textContent=active
-    ?'■ FERMA SCANSIONE':'📷 SCANSIONA PRODOTTO';
+    ?'■ FERMA SCANSIONE'
+    :'📷 SCANSIONA PRODOTTO';
 
-  $('register').disabled=
-    locked||active||!armed||!selectedSku||!type;
+  $('register').disabled=locked||active||!armed||!selectedSku||!type;
 
   $('sold').disabled=active||locked;
   $('used').disabled=active||locked;
+  $('gift').disabled=active||locked;
 }
 
 function clearSelection(){
@@ -575,35 +509,37 @@ function displayProduct(sku,barcode='',confidence='',fromCamera=false){
   selectedSku=sku;
   selectedBarcode=barcode;
   armed=true;
-
   chooseType('');
 
   $('productName').textContent=p.name;
-
   $('barcodeText').textContent=
     p.supplier+' · Codice articolo '+p.sku+
     (barcode?' · Barcode '+barcode:'');
 
-  const messages={
-    H:'Associazione da catalogo storico: verifica la confezione prima degli scarichi reali.',
-    G:'Numero stampato sulla confezione: codice da confermare.',
-    W:'Corrispondenza da fonte web: verifica la confezione.',
-    F:'Barcode confermato da foto della confezione.',
-    E:'Codice presente nel file Excel: da verificare.',
-    Q:'Riconosciuto tramite etichetta QR interna.',
-    LOCAL:'Associazione salvata su questo iPad.'
-  };
-
-  $('origin').textContent=messages[confidence]||'';
+  $('origin').textContent=
+    confidence==='H'
+      ?'Associazione da catalogo storico: verifica la confezione prima degli scarichi reali.'
+    :confidence==='G'
+      ?'Numero stampato sulla confezione; EAN-13 non valido, codice da confermare.'
+    :confidence==='W'
+      ?'Corrispondenza da fonte web, da verificare sulla confezione.'
+    :confidence==='F'
+      ?'Barcode da foto della confezione.'
+    :confidence==='E'
+      ?'Codice presente nel foglio Excel, da verificare.'
+    :confidence==='Q'
+      ?'Riconosciuto tramite etichetta QR interna.'
+    :confidence==='LOCAL'
+      ?'Associazione salvata su questo iPad.'
+      :'';
 
   controls();
 
   if(fromCamera){
-    setTimeout(()=>{
-      $('movePanel').scrollIntoView({
-        behavior:'smooth',block:'start'
-      });
-    },270);
+    setTimeout(()=>$('movePanel').scrollIntoView({
+      behavior:'smooth',
+      block:'start'
+    }),270);
   }
 }
 
@@ -614,7 +550,6 @@ async function found(raw,ep){
   if(!code)return;
 
   epoch++;
-
   const match=getBarcode(code);
 
   await stopCamera(false);
@@ -626,32 +561,25 @@ async function found(raw,ep){
       match.confidence||match.stato||'LOCAL',
       true
     );
-
-    setStatus(
-      '✓ Prodotto riconosciuto. Seleziona quantità e movimento.',
-      'ok'
-    );
+    setStatus('✓ Prodotto riconosciuto. Seleziona quantità e movimento.','ok');
   }else{
     clearSelection();
-
     selectedBarcode=code;
 
     $('barcodeText').textContent='Codice letto: '+code;
     $('productName').textContent='Prodotto non ancora associato';
-
     $('origin').textContent=
-      'Apri AGGIUNGI NUOVO PRODOTTO e scegli il prodotto.';
+      'Per usarlo apri AGGIUNGI NUOVO PRODOTTO e scegli il prodotto dal catalogo.';
 
     $('newBarcode').value=code;
     $('newBox').open=true;
 
-    setStatus('Barcode letto, ma manca l’associazione.','ok');
+    setStatus('Barcode letto, ma manca l’associazione al prodotto.','ok');
 
-    setTimeout(()=>{
-      $('newBox').scrollIntoView({
-        behavior:'smooth',block:'start'
-      });
-    },260);
+    setTimeout(()=>$('newBox').scrollIntoView({
+      behavior:'smooth',
+      block:'start'
+    }),260);
   }
 }
 
@@ -660,12 +588,8 @@ function cameraConfig(high){
     fps:high?12:10,
     disableFlip:true,
     qrbox:(w,h)=>({
-      width:Math.max(
-        40,Math.min(w-2,Math.round(w*(high?.94:.87)))
-      ),
-      height:Math.max(
-        40,Math.min(h-2,Math.round(h*(high?.62:.48)))
-      )
+      width:Math.max(40,Math.min(w-2,Math.round(w*(high?.94:.87)))),
+      height:Math.max(40,Math.min(h-2,Math.round(h*(high?.62:.48))))
     })
   };
 
@@ -694,12 +618,11 @@ async function openCamera(){
   }
 
   if(!scanReady()){
-    setStatus('Libreria scanner non caricata. Controlla Internet.','error');
+    setStatus('Libreria scanner non caricata: controlla Internet.','error');
     return;
   }
 
   const my=++epoch;
-
   clearSelection();
   starting=true;
   controls();
@@ -736,15 +659,13 @@ async function openCamera(){
     }
 
     active=true;
-
     setStatus(
-      'Fotocamera attiva. Inquadra il barcode grande o piccolo.',
+      'Fotocamera attiva · Inquadra il barcode (grande o piccolo).',
       'ok'
     );
   }catch(e){
     active=false;
     scanner=null;
-
     setStatus(
       'Fotocamera non avviata: '+(e.message||String(e)),
       'error'
@@ -759,9 +680,7 @@ async function openCamera(){
     return;
   }
 
-  if(active){
-    zoomTimer=setTimeout(()=>void tryZoom(my),7000);
-  }
+  if(active)zoomTimer=setTimeout(()=>void tryZoom(my),7000);
 }
 
 async function tryZoom(my){
@@ -783,7 +702,7 @@ async function tryZoom(my){
       });
 
       setStatus(
-        'Scansione attiva. Avvicina lentamente il prodotto finché le barre sono nitide.',
+        'Scansione attiva · Avvicina lentamente il prodotto finché le barre sono nitide.',
         'ok'
       );
     }
@@ -802,10 +721,8 @@ async function stopCamera(announce=true){
   }
 
   stopping=true;
-
   clearTimeout(zoomTimer);
   zoomTimer=null;
-
   controls();
 
   try{
@@ -817,18 +734,13 @@ async function stopCamera(announce=true){
   scanner=null;
   active=false;
   stopping=false;
-
   controls();
 
   if(announce)setStatus('Fotocamera fermata.');
 }
 
-// MOVIMENTI DI PROVA
-
 function newId(){
-  if(window.crypto?.randomUUID){
-    return crypto.randomUUID();
-  }
+  if(window.crypto?.randomUUID)return crypto.randomUUID();
 
   if(window.crypto?.getRandomValues){
     const x=new Uint32Array(4);
@@ -862,7 +774,8 @@ function register(){
 
   if(!confirm(
     'MOVIMENTO SOLO TEST\n'+
-    p.name+'\n'+type+' · '+n+' pezzi\n\n'+
+    p.name+'\n'+
+    type+' · '+n+' pezzi\n\n'+
     'Nessuna giacenza verrà modificata. Confermi?'
   ))return;
 
@@ -885,7 +798,6 @@ function register(){
 
   tests=next;
   armed=false;
-
   controls();
 
   $('last').textContent=
@@ -895,8 +807,6 @@ function register(){
 
   setStatus('✓ Movimento di prova salvato su questo iPad.','ok');
 }
-
-// AGGIUNGI PRODOTTO E ETICHETTA QR
 
 function fillExisting(){
   const q=$('linkSearch').value.trim().toLocaleLowerCase('it');
@@ -908,32 +818,26 @@ function fillExisting(){
   );
 
   const fragment=document.createDocumentFragment();
+  fragment.appendChild(new Option(
+    'Non è nell’elenco: creo un articolo nuovo',''
+  ));
 
-  fragment.appendChild(
-    new Option('Non è nell’elenco: creo un articolo nuovo','')
-  );
-
-  ps.forEach(p=>{
-    fragment.appendChild(
-      new Option(p.supplier+' · '+p.name,p.sku)
-    );
-  });
+  ps.forEach(p=>fragment.appendChild(
+    new Option(p.supplier+' · '+p.name,p.sku)
+  ));
 
   $('existing').replaceChildren(fragment);
-
   $('existing').value=ps.some(p=>p.sku===cur)?cur:'';
 
   toggleNew();
 }
 
 function toggleNew(){
-  $('newFields').classList.toggle(
-    'hidden',!!$('existing').value
-  );
+  $('newFields').classList.toggle('hidden',!!$('existing').value);
 }
 
 function genQR(sku,name){
-  const code='RS|'+sku;
+  currentQR='RS|'+sku;
 
   $('qrBox').classList.remove('hidden');
   $('qrTitle').textContent=name+' · '+sku;
@@ -941,8 +845,7 @@ function genQR(sku,name){
 
   if(typeof QRCode==='undefined'){
     $('qrCode').textContent=
-      'Generatore QR non caricato. Codice: '+code;
-
+      'Codice: '+currentQR+' (generatore QR non caricato)';
     $('qrPrint').disabled=true;
     return;
   }
@@ -950,7 +853,7 @@ function genQR(sku,name){
   $('qrPrint').disabled=false;
 
   new QRCode($('qrCode'),{
-    text:code,
+    text:currentQR,
     width:186,
     height:186,
     colorDark:'#000000',
@@ -966,7 +869,7 @@ function saveNew(){
   const existing=$('existing').value;
 
   if(code&&!/^[A-Za-z0-9|_-]{4,55}$/.test(code)){
-    alert('Il barcode non deve contenere spazi.');
+    alert('Il barcode deve contenere da 4 a 55 caratteri senza spazi.');
     return;
   }
 
@@ -988,19 +891,15 @@ function saveNew(){
     const next=extra.concat([p]);
 
     if(!toStore(STORE.products,next))return;
-
     extra=next;
   }
 
   if(code){
     const prior=getBarcode(code);
 
-    if(
-      prior&&prior.sku!==p.sku&&
-      !confirm(
-        'Questo barcode è già associato a un altro prodotto. Vuoi correggerlo su questo iPad?'
-      )
-    )return;
+    if(prior&&prior.sku!==p.sku&&!confirm(
+      'Questo barcode è già associato a un altro prodotto. Correggere l’associazione solo su questo iPad?'
+    ))return;
 
     const copy={
       ...learned,
@@ -1019,7 +918,7 @@ function saveNew(){
   displayProduct(p.sku,code,code?'LOCAL':'Q');
 
   $('addStatus').textContent=
-    '✓ Prodotto pronto. Associazione salvata su questo iPad.';
+    '✓ Prodotto pronto. L’associazione è stata salvata solo su questo iPad. Per le confezioni difficili puoi usare l’etichetta QR.';
 
   genQR(p.sku,p.name);
 
@@ -1031,19 +930,19 @@ function saveNew(){
   toggleNew();
 }
 
-// EVENTI
-$('cameraButton').addEventListener('click',()=>{
-  if(active)void stopCamera(true);
-  else void openCamera();
-});
+$('cameraButton').addEventListener('click',()=>
+  active?void stopCamera(true):void openCamera()
+);
 
 $('sold').addEventListener('click',()=>chooseType('VENDUTO'));
 $('used').addEventListener('click',()=>chooseType('CONSUMATO'));
+$('gift').addEventListener('click',()=>chooseType('OMAGGIO'));
 $('register').addEventListener('click',register);
 
 $('quantity').addEventListener('change',()=>{
   $('customQuantity').classList.toggle(
-    'hidden',$('quantity').value!=='other'
+    'hidden',
+    $('quantity').value!=='other'
   );
 
   if($('quantity').value==='other'){
@@ -1065,10 +964,7 @@ for(let i=1;i<=50;i++){
     new Option(i+' pezzo'+(i>1?'i':''),String(i))
   );
 }
-
-$('quantity').add(
-  new Option('Altra quantità…','other')
-);
+$('quantity').add(new Option('Altra quantità…','other'));
 
 fillExisting();
 controls();
@@ -1076,7 +972,7 @@ controls();
 setStatus(
   scanReady()
     ?'Scanner pronto. Premi SCANSIONA PRODOTTO.'
-    :'Libreria barcode non caricata. Controlla Internet.',
+    :'La libreria barcode non è caricata. Verifica la connessione.',
   scanReady()?'ok':'error'
 );
 </script>
