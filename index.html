@@ -5,98 +5,160 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#123b30">
-<title>Retróscena · Smart Scanner 1.0.8</title>
+<title>Retróscena · Smart Scanner 1.0.9</title>
 <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <style>
 :root{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#18372d;background:#f2f5f2}
-*{box-sizing:border-box}body{margin:0}main{max-width:650px;margin:auto;padding:15px 13px 55px}
+*{box-sizing:border-box}
+body{margin:0}
+main{max-width:650px;margin:auto;padding:15px 13px 55px}
 header{border-radius:19px;background:#13392f;color:#fff;padding:22px 19px;margin-bottom:13px}
-h1{font-size:26px;letter-spacing:.035em;margin:0}header p{font-size:12px;letter-spacing:.06em;color:#bcd3c5;margin:6px 0 0}
+h1{font-size:26px;letter-spacing:.035em;margin:0}
+header p{font-size:12px;letter-spacing:.06em;color:#bcd3c5;margin:6px 0 0}
 .card{background:#fff;border:1px solid #dce5df;border-radius:16px;padding:17px;margin-bottom:12px}
 .topline{display:flex;gap:8px;justify-content:space-between;align-items:center;margin-bottom:12px}
-small,.hint{font-size:12px;color:#617469;line-height:1.5}h2{font-size:18px;margin:0 0 12px}
+small,.hint{font-size:12px;color:#617469;line-height:1.5}
+h2{font-size:18px;margin:0 0 12px}
 label{display:block;font-weight:700;font-size:13px;margin:11px 0 7px}
 button,input,select{font:inherit}
 button{border:0;border-radius:12px;width:100%;padding:14px 10px;font-size:15px;font-weight:750;cursor:pointer;margin:6px 0}
-button:disabled{opacity:.43}button.main{color:#fff;background:#153f32}button.alt{background:#e7f0e9;color:#164333}
+button:disabled{opacity:.43}
+button.main{color:#fff;background:#153f32}
+button.alt{background:#e7f0e9;color:#164333}
 button.op{background:#ecf1ed;color:#244436;border:2px solid #e3ebe5}
 button.op.selected{background:#174a38;border-color:#174a38;color:#fff}
 button.warn{background:#f9eae7;color:#99443b}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:9px}.grid2 button{margin:0}
-.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}.grid3 button{margin:0;padding:14px 5px;font-size:13px;letter-spacing:.01em}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.grid2 button{margin:0}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}
+.grid3 button{margin:0;padding:14px 5px;font-size:13px;letter-spacing:.01em}
 input[type=text],select,input[type=number]{width:100%;border:1px solid #b8c9be;border-radius:10px;font-size:16px;padding:12px;background:#fff;color:#17362a}
 #reader{width:100%;background:#19332b;border-radius:11px;overflow:hidden;min-height:115px}
-#reader video{object-fit:cover}#status{font-size:13px;line-height:1.5;white-space:pre-wrap;margin:12px 0 5px;overflow-wrap:anywhere}
+#reader video{object-fit:cover}
+#status{font-size:13px;line-height:1.5;white-space:pre-wrap;margin:12px 0 5px;overflow-wrap:anywhere}
 #productName{font-weight:800;font-size:20px;line-height:1.3;margin:4px 0 7px}
 #barcodeText{font-size:12px;color:#5a6d61;overflow-wrap:anywhere}
 #origin{font-size:12px;line-height:1.45;white-space:pre-wrap;margin:9px 0;color:#7b6354}
 #last{white-space:pre-wrap;font-size:13px;margin-top:10px;line-height:1.5;color:#226845}
-.group{margin:13px 0}#newBox[open]{background:#fff}summary{list-style:none;cursor:pointer;font-weight:800;padding:7px 0;font-size:15px}
-summary::-webkit-details-marker{display:none}summary:before{content:'＋ ';font-weight:900}details[open] summary:before{content:'－ '}
+.group{margin:13px 0}
+#newBox[open]{background:#fff}
+summary{list-style:none;cursor:pointer;font-weight:800;padding:7px 0;font-size:15px}
+summary::-webkit-details-marker{display:none}
+summary:before{content:'＋ ';font-weight:900}
+details[open] summary:before{content:'－ '}
 #qrBox{margin:12px 0;padding:14px;border:1px dashed #b5c9bb;border-radius:12px;text-align:center}
-#qrCode{display:flex;justify-content:center;margin:10px auto}#qrCode img,#qrCode canvas{margin:auto}
+#qrCode{display:flex;justify-content:center;margin:10px auto}
+#qrCode img,#qrCode canvas{margin:auto}
 .tag{display:inline-block;border-radius:20px;padding:6px 11px;background:#e7f0ea;font-size:11px;font-weight:750}
-.hidden{display:none!important}.ok{color:#176c42}.error{color:#af322b}
-@media print{body *{visibility:hidden!important}#qrBox,#qrBox *{visibility:visible!important}#qrBox{position:absolute;left:35px;top:25px;width:300px;border:0}#qrPrint{display:none}}
+.hidden{display:none!important}
+.ok{color:#176c42}
+.error{color:#af322b}
+@media print{
+body *{visibility:hidden!important}
+#qrBox,#qrBox *{visibility:visible!important}
+#qrBox{position:absolute;left:35px;top:25px;width:300px;border:0}
+#qrPrint{display:none}
+}
 </style>
 </head>
-<body><main>
-<header><h1>RETRÓSCENA</h1><p>SMART SCANNER 1.0.8 · COLLAUDO</p></header>
+<body>
+<main>
+
+<header>
+<h1>RETRÓSCENA</h1>
+<p>SMART SCANNER 1.0.9 · COLLAUDO</p>
+</header>
+
 <section class="card">
- <div class="topline"><h2>Scansiona prodotto</h2><span class="tag">UN SOLO TASTO</span></div>
- <button id="cameraButton" class="main" type="button">📷 SCANSIONA PRODOTTO</button>
- <div id="reader"></div>
- <div id="status" role="status" aria-live="polite">Inizializzazione...</div>
- <small>La fotocamera usa automaticamente una risoluzione elevata per barcode grandi e piccoli. Non servono fotografie.</small>
+<div class="topline">
+<h2>Scansiona prodotto</h2>
+<span class="tag">UN SOLO TASTO</span>
+</div>
+<button id="cameraButton" class="main" type="button">📷 SCANSIONA PRODOTTO</button>
+<div id="reader"></div>
+<div id="status" role="status" aria-live="polite">Inizializzazione...</div>
+<small>La fotocamera usa automaticamente una risoluzione elevata per barcode grandi e piccoli. Non servono fotografie.</small>
 </section>
+
 <section class="card" id="movePanel">
- <h2>Prodotto e movimento</h2>
- <div id="productName">Nessun prodotto riconosciuto</div>
- <div id="barcodeText">Inquadra il codice del prodotto per iniziare.</div>
- <div id="origin"></div>
- <div class="group">
-  <label for="quantity">Quantità (pezzi)</label>
-  <select id="quantity" aria-label="Quantità da registrare"></select>
-  <input id="customQuantity" type="number" inputmode="numeric" min="1" max="999" step="1" class="hidden" placeholder="Quantità da 1 a 999" aria-label="Altra quantità">
- </div>
- <label>Tipo di movimento</label>
- <div class="grid3"><button id="sold" class="op" type="button" aria-pressed="false">VENDUTO</button><button id="used" class="op" type="button" aria-pressed="false">CONSUMATO</button><button id="gift" class="op" type="button" aria-pressed="false">OMAGGIO</button></div>
- <button id="register" class="main" type="button" disabled>REGISTRA TEST</button>
- <div id="last">Nessun movimento registrato.</div>
- <small>Durante il collaudo salva solo una prova su questo iPad. Non è collegato a Google Fogli e non scala la giacenza.</small>
+<h2>Prodotto e movimento</h2>
+<div id="productName">Nessun prodotto riconosciuto</div>
+<div id="barcodeText">Inquadra il codice del prodotto per iniziare.</div>
+<div id="origin"></div>
+
+<div class="group">
+<label for="quantity">Quantità (pezzi)</label>
+<select id="quantity" aria-label="Quantità da registrare"></select>
+<input id="customQuantity" type="number" inputmode="numeric" min="1" max="999" step="1" class="hidden" placeholder="Quantità da 1 a 999" aria-label="Altra quantità">
+</div>
+
+<label>Tipo di movimento</label>
+<div class="grid3">
+<button id="sold" class="op" type="button" aria-pressed="false">VENDUTO</button>
+<button id="used" class="op" type="button" aria-pressed="false">CONSUMATO</button>
+<button id="gift" class="op" type="button" aria-pressed="false">OMAGGIO</button>
+</div>
+
+<button id="register" class="main" type="button" disabled>REGISTRA TEST SU IPAD</button>
+<div id="bridgeStatus" class="hint" role="status">Verifica collegamento in corso...</div>
+<div id="last">Nessun movimento registrato.</div>
+
+<small>Se aperto dalla pagina Ponte Scanner, registra in SMART Scanner Test su Google Fogli. Se aperto direttamente su GitHub, il test è soltanto locale. In entrambi i casi le giacenze restano invariate.</small>
 </section>
+
 <section class="card">
- <details id="newBox">
-  <summary>AGGIUNGI NUOVO PRODOTTO</summary>
-  <small>Serve per un articolo nuovo oppure per associare un barcode non ancora conosciuto a un articolo già nel catalogo. Le nuove associazioni restano su questo iPad.</small>
-  <label for="linkSearch">Cerca un prodotto già presente</label>
-  <input id="linkSearch" type="text" placeholder="Cerca per nome o codice" autocomplete="off">
-  <label for="existing">Prodotto già presente (selezione facoltativa)</label>
-  <select id="existing"><option value="">Non è nell'elenco: creo un articolo nuovo</option></select>
-  <div id="newFields">
-   <label for="newName">Nome del nuovo prodotto</label>
-   <input id="newName" type="text" maxlength="140" placeholder="Es. Nuovo gel 250 ml">
-   <label for="newSupplier">Fornitore</label>
-   <select id="newSupplier"><option value="DAVINES">Davines</option><option value="PRO BIG">Pro Big</option><option value="PRODOTTI-RECUPERO">Prodotti recupero</option><option value="RETRÓSCENA">Retróscena</option><option value="ALTRO">Altro</option></select>
-  </div>
-  <label for="newBarcode">Barcode letto (facoltativo)</label>
-  <input id="newBarcode" type="text" inputmode="text" placeholder="Si riempie da solo dopo una scansione">
-  <button id="saveProduct" class="alt" type="button">SALVA PRODOTTO / ASSOCIAZIONE</button>
-  <div id="addStatus" aria-live="polite" class="hint"></div>
-  <div id="qrBox" class="hidden">
-   <strong>Etichetta QR per barcode illeggibile</strong>
-   <div id="qrCode"></div>
-   <div id="qrTitle"></div>
-   <small>Se una confezione non è leggibile, puoi applicare questa etichetta. La stessa fotocamera la riconoscerà senza scattare foto.</small>
-   <button id="qrPrint" class="alt" type="button">STAMPA ETICHETTA</button>
-  </div>
- </details>
+<details id="newBox">
+<summary>AGGIUNGI NUOVO PRODOTTO</summary>
+<small>Serve per un articolo nuovo oppure per associare un barcode non ancora conosciuto a un articolo già nel catalogo. Le nuove associazioni restano su questo iPad.</small>
+
+<label for="linkSearch">Cerca un prodotto già presente</label>
+<input id="linkSearch" type="text" placeholder="Cerca per nome o codice" autocomplete="off">
+
+<label for="existing">Prodotto già presente (selezione facoltativa)</label>
+<select id="existing">
+<option value="">Non è nell'elenco: creo un articolo nuovo</option>
+</select>
+
+<div id="newFields">
+<label for="newName">Nome del nuovo prodotto</label>
+<input id="newName" type="text" maxlength="140" placeholder="Es. Nuovo gel 250 ml">
+
+<label for="newSupplier">Fornitore</label>
+<select id="newSupplier">
+<option value="DAVINES">Davines</option>
+<option value="PRO BIG">Pro Big</option>
+<option value="PRODOTTI-RECUPERO">Prodotti recupero</option>
+<option value="RETRÓSCENA">Retróscena</option>
+<option value="ALTRO">Altro</option>
+</select>
+</div>
+
+<label for="newBarcode">Barcode letto (facoltativo)</label>
+<input id="newBarcode" type="text" inputmode="text" placeholder="Si riempie da solo dopo una scansione">
+
+<button id="saveProduct" class="alt" type="button">SALVA PRODOTTO / ASSOCIAZIONE</button>
+<div id="addStatus" aria-live="polite" class="hint"></div>
+
+<div id="qrBox" class="hidden">
+<strong>Etichetta QR per barcode illeggibile</strong>
+<div id="qrCode"></div>
+<div id="qrTitle"></div>
+<small>Se una confezione non è leggibile, puoi applicare questa etichetta. La stessa fotocamera la riconoscerà senza scattare foto.</small>
+<button id="qrPrint" class="alt" type="button">STAMPA ETICHETTA</button>
+</div>
+</details>
 </section>
+
 <small>Le foto non vengono caricate online. I dati del catalogo e le associazioni apprese sono salvati localmente. Il riconoscimento visivo della sola confezione richiede foto di riferimento e un modello dedicato: non è ancora attivo.</small>
+
 </main>
+
 <script>
 'use strict';
+
+// CATALOGO PRODOTTI — 171 ARTICOLI
+
 const PRODUCTS_BASE=[
 ["75642","DEDE · shampoo · 1000ml","DAVINES",0],
 ["75628","DEDE · shampoo · 250ml","DAVINES",0],
@@ -125,7 +187,7 @@ const PRODUCTS_BASE=[
 ["75083","VOLU · shampoo · 75ml","DAVINES",0],
 ["75055","VOLU · hair mist · 250ml","DAVINES",0],
 ["90156","SU · Hair & Body wash · 500ml","DAVINES",0],
-["90142","SU · Hair & Body wash · 75ml","DAVINES",0],
+["90142","SU · Hair &Body wash · 75ml","DAVINES",0],
 ["90144","SU · Hair Milk · 135ml","DAVINES",0],
 ["90145","SU · Hair Milk · 50ml","DAVINES",0],
 ["90158","SU · Aftersun · 150ml","DAVINES",0],
@@ -271,6 +333,8 @@ const PRODUCTS_BASE=[
 ["EXTRA-GEL-BAGNATO","Gel Effetto Bagnato · Retróscena Barbieri","RETRÓSCENA",1]
 ];
 
+// ASSOCIAZIONI BARCODE — 107
+
 const BARCODE_BASE=`
 8004608280484|75628|W
 8004608242987|75643|W
@@ -381,23 +445,33 @@ const BARCODE_BASE=`
 8033993192102|PB-008|F
 `;
 
+// MEMORIA LOCALE
+
 const $=id=>document.getElementById(id);
-const STORE={products:'retroscena_extra_prodotti_107',associations:'retroscena_scanner_105_mappings',tests:'retroscena_scanner_105_tests'};
+
+const STORE={
+ products:'retroscena_extra_prodotti_107',
+ associations:'retroscena_scanner_105_mappings',
+ tests:'retroscena_scanner_105_tests'
+};
 
 function fromStore(key,fallback){
-  try{
-    const x=JSON.parse(localStorage.getItem(key));
-    return x==null?fallback:x;
-  }catch(e){return fallback;}
+ try{
+  const x=JSON.parse(localStorage.getItem(key));
+  return x==null?fallback:x;
+ }catch(e){
+  return fallback;
+ }
 }
+
 function toStore(key,val){
-  try{
-    localStorage.setItem(key,JSON.stringify(val));
-    return true;
-  }catch(e){
-    setStatus('Memoria Safari non disponibile. Dati non salvati.','error');
-    return false;
-  }
+ try{
+  localStorage.setItem(key,JSON.stringify(val));
+  return true;
+ }catch(e){
+  setStatus('Memoria Safari non disponibile. Dati non salvati.','error');
+  return false;
+ }
 }
 
 let extra=fromStore(STORE.products,[]);
@@ -408,573 +482,1029 @@ if(!Array.isArray(extra))extra=[];
 if(!learned||typeof learned!=='object'||Array.isArray(learned))learned={};
 if(!Array.isArray(tests))tests=[];
 
-const base=PRODUCTS_BASE.map(([sku,name,supplier,temp])=>({sku,name,supplier,temp:!!temp}));
+const base=PRODUCTS_BASE.map(
+ ([sku,name,supplier,temp])=>({
+  sku,name,supplier,temp:!!temp
+ })
+);
 
-function allProducts(){return base.concat(extra);}
-function product(sku){return allProducts().find(x=>x.sku===sku)||null;}
-
-const builtins={};
-for(const line of BARCODE_BASE.trim().split('\n')){
-  const [barcode,sku,confidence]=line.split('|');
-  if(barcode&&sku)builtins[barcode]={sku,confidence};
+function allProducts(){
+ return base.concat(extra);
 }
 
-let scanner=null,active=false,starting=false,stopping=false,epoch=0;
-let selectedSku='',selectedBarcode='',type='',armed=false,zoomTimer=null;
+function product(sku){
+ return allProducts().find(x=>x.sku===sku)||null;
+}
+
+const builtins={};
+
+for(const line of BARCODE_BASE.trim().split('\n')){
+ const [barcode,sku,confidence]=line.split('|');
+ if(barcode&&sku){
+  builtins[barcode]={sku,confidence};
+ }
+}
+
+// STATO DELLO SCANNER
+
+let scanner=null;
+let active=false;
+let starting=false;
+let stopping=false;
+let epoch=0;
+let selectedSku='';
+let selectedBarcode='';
+let type='';
+let armed=false;
+let zoomTimer=null;
 let currentQR='';
 
+// PONTE GOOGLE FOGLI 1.3
+
+const BRIDGE_NONCE=(
+ location.hash.match(
+  /(?:^#|&)rsbridge=([a-f0-9]{48})(?:&|$)/
+ )||[]
+)[1]||'';
+
+const BRIDGE_MODE=!!BRIDGE_NONCE;
+
+let bridgeConnected=false;
+let sending=false;
+let pendingBridge=null;
+let bridgeTimeout=null;
+
+function bridgeDisplay(){
+ const e=$('bridgeStatus');
+
+ if(!BRIDGE_MODE){
+  e.textContent=
+   'Google Fogli: NON collegato. Hai aperto lo scanner direttamente: i test resteranno su questo iPad.';
+  $('register').textContent='REGISTRA TEST SOLO SU IPAD';
+
+ }else if(bridgeConnected){
+  e.textContent=
+   '✓ Google Fogli collegato · SMART Scanner Test · nessuna giacenza modificata.';
+
+  $('register').textContent=sending
+   ?'REGISTRAZIONE IN CORSO...'
+   :'REGISTRA TEST IN GOOGLE FOGLI';
+
+ }else{
+  e.textContent=window.opener
+   ?'Google Fogli: connessione in corso. Lascia aperta la scheda del Ponte Scanner.'
+   :'Ponte non raggiungibile: apri questa pagina dal pulsante APRI SCANNER del Ponte Google, sullo stesso iPad.';
+
+  $('register').textContent='IN ATTESA DEL COLLEGAMENTO';
+ }
+}
+
+function helloBridge(){
+ if(!BRIDGE_MODE||!window.opener)return;
+
+ window.opener.postMessage({
+  type:'RS_HELLO',
+  nonce:BRIDGE_NONCE
+ },'*');
+}
+
+function sendBridge(payload){
+ if(!window.opener||!bridgeConnected){
+  throw new Error('Ponte Google non disponibile.');
+ }
+
+ window.opener.postMessage({
+  type:'RS_REGISTER',
+  nonce:BRIDGE_NONCE,
+  payload
+ },'*');
+}
+
+window.addEventListener('message',event=>{
+ if(!BRIDGE_MODE||event.source!==window.opener)return;
+
+ const m=event.data;
+
+ if(
+  !m||
+  typeof m!=='object'||
+  m.nonce!==BRIDGE_NONCE
+ )return;
+
+ if(m.type==='RS_READY'){
+  bridgeConnected=true;
+  bridgeDisplay();
+  controls();
+  return;
+ }
+
+ if(
+  m.type!=='RS_RESULT'||
+  !pendingBridge||
+  m.id!==pendingBridge.id
+ )return;
+
+ clearTimeout(bridgeTimeout);
+ bridgeTimeout=null;
+ sending=false;
+
+ if(m.ok){
+  const p=product(selectedSku);
+
+  armed=false;
+  pendingBridge=null;
+
+  $('last').textContent=
+   '✓ Movimento TEST confermato su Google Fogli\n'+
+   (m.result?.prodotto||p?.name||'')+
+   ' · '+(m.result?.tipo||type)+
+   ' · '+(m.result?.quantita||'')+
+   ' pezzo/i\n'+
+   (m.result?.duplicato
+    ?'Richiesta già presente: nessun duplicato.'
+    :'Registrazione inserita in SMART Scanner Test.')+
+   '\nGiacenza invariata.';
+
+  setStatus('✓ Conferma ricevuta da Google Fogli.','ok');
+
+ }else{
+  $('last').textContent=
+   'Registrazione NON confermata: '+
+   (m.error||'Errore sconosciuto')+
+   '\nPer riprovare, premi lo stesso pulsante: manterremo l’ID della richiesta.';
+
+  setStatus(
+   'Verifica il messaggio: nessun nuovo tentativo automatico.',
+   'error'
+  );
+ }
+
+ bridgeDisplay();
+ controls();
+});
+
+// FUNZIONI SCANNER
+
 function setStatus(t,cls=''){
-  $('status').textContent=t;
-  $('status').className=cls;
+ $('status').textContent=t;
+ $('status').className=cls;
 }
 
 function getBarcode(raw){
-  let b=String(raw||'').trim();
+ let b=String(raw||'').trim();
 
-  if(b.startsWith('RS|')){
-    const sku=b.slice(3);
-    return product(sku)?{sku,confidence:'Q',barcode:b}:null;
+ if(b.startsWith('RS|')){
+  const sku=b.slice(3);
+
+  return product(sku)
+   ?{sku,confidence:'Q',barcode:b}
+   :null;
+ }
+
+ const variants=[b];
+
+ if(/^\d{12}$/.test(b)){
+  variants.push('0'+b);
+ }
+
+ if(/^0\d{12}$/.test(b)){
+  variants.push(b.slice(1));
+ }
+
+ for(const key of variants){
+  let m=learned[key]||builtins[key];
+
+  if(m&&product(m.sku)){
+   return {...m,barcode:key};
   }
+ }
 
-  const variants=[b];
-  if(/^\d{12}$/.test(b))variants.push('0'+b);
-  if(/^0\d{12}$/.test(b))variants.push(b.slice(1));
-
-  for(const key of variants){
-    let m=learned[key]||builtins[key];
-    if(m&&product(m.sku))return {...m,barcode:key};
-  }
-
-  return null;
+ return null;
 }
 
 function scanReady(){
-  return typeof Html5Qrcode!=='undefined' &&
-         typeof Html5QrcodeSupportedFormats!=='undefined';
+ return (
+  typeof Html5Qrcode!=='undefined'&&
+  typeof Html5QrcodeSupportedFormats!=='undefined'
+ );
 }
 
 function formats(){
-  const f=Html5QrcodeSupportedFormats;
-  return [f.EAN_13,f.EAN_8,f.UPC_A,f.UPC_E,f.CODE_128,f.CODE_39,f.ITF,f.QR_CODE];
+ const f=Html5QrcodeSupportedFormats;
+
+ return [
+  f.EAN_13,
+  f.EAN_8,
+  f.UPC_A,
+  f.UPC_E,
+  f.CODE_128,
+  f.CODE_39,
+  f.ITF,
+  f.QR_CODE
+ ];
 }
 
 function chooseType(k){
-  type=k;
+ type=k;
 
-  $('sold').classList.toggle('selected',k==='VENDUTO');
-  $('used').classList.toggle('selected',k==='CONSUMATO');
-  $('gift').classList.toggle('selected',k==='OMAGGIO');
+ $('sold').classList.toggle('selected',k==='VENDUTO');
+ $('used').classList.toggle('selected',k==='CONSUMATO');
+ $('gift').classList.toggle('selected',k==='OMAGGIO');
 
-  $('sold').setAttribute('aria-pressed',String(k==='VENDUTO'));
-  $('used').setAttribute('aria-pressed',String(k==='CONSUMATO'));
-  $('gift').setAttribute('aria-pressed',String(k==='OMAGGIO'));
+ $('sold').setAttribute(
+  'aria-pressed',String(k==='VENDUTO')
+ );
 
-  controls();
+ $('used').setAttribute(
+  'aria-pressed',String(k==='CONSUMATO')
+ );
+
+ $('gift').setAttribute(
+  'aria-pressed',String(k==='OMAGGIO')
+ );
+
+ controls();
 }
 
 function controls(){
-  const locked=starting||stopping;
+ const locked=starting||stopping;
 
-  $('cameraButton').disabled=locked;
-  $('cameraButton').textContent=active
-    ?'■ FERMA SCANSIONE'
-    :'📷 SCANSIONA PRODOTTO';
+ $('cameraButton').disabled=locked||sending;
 
-  $('register').disabled=locked||active||!armed||!selectedSku||!type;
+ $('cameraButton').textContent=active
+  ?'■ FERMA SCANSIONE'
+  :'📷 SCANSIONA PRODOTTO';
 
-  $('sold').disabled=active||locked;
-  $('used').disabled=active||locked;
-  $('gift').disabled=active||locked;
+ $('register').disabled=
+  locked||
+  active||
+  sending||
+  !armed||
+  !selectedSku||
+  !type||
+  (BRIDGE_MODE&&!bridgeConnected);
+
+ bridgeDisplay();
+
+ $('sold').disabled=active||locked||sending;
+ $('used').disabled=active||locked||sending;
+ $('gift').disabled=active||locked||sending;
 }
 
 function clearSelection(){
-  selectedSku='';
-  selectedBarcode='';
-  armed=false;
-  chooseType('');
+ pendingBridge=null;
+ selectedSku='';
+ selectedBarcode='';
+ armed=false;
 
-  $('productName').textContent='Nessun prodotto riconosciuto';
-  $('barcodeText').textContent='Inquadra il codice del prodotto per iniziare.';
-  $('origin').textContent='';
-  $('quantity').value='1';
-  $('customQuantity').classList.add('hidden');
+ chooseType('');
 
-  controls();
+ $('productName').textContent='Nessun prodotto riconosciuto';
+
+ $('barcodeText').textContent=
+  'Inquadra il codice del prodotto per iniziare.';
+
+ $('origin').textContent='';
+ $('quantity').value='1';
+ $('customQuantity').classList.add('hidden');
+
+ controls();
 }
 
-function displayProduct(sku,barcode='',confidence='',fromCamera=false){
-  const p=product(sku);
-  if(!p)return;
+function displayProduct(
+ sku,
+ barcode='',
+ confidence='',
+ fromCamera=false
+){
+ const p=product(sku);
+ if(!p)return;
 
-  selectedSku=sku;
-  selectedBarcode=barcode;
-  armed=true;
-  chooseType('');
+ pendingBridge=null;
+ selectedSku=sku;
+ selectedBarcode=barcode;
+ armed=true;
 
-  $('productName').textContent=p.name;
-  $('barcodeText').textContent=
-    p.supplier+' · Codice articolo '+p.sku+
-    (barcode?' · Barcode '+barcode:'');
+ chooseType('');
 
-  $('origin').textContent=
-    confidence==='H'
-      ?'Associazione da catalogo storico: verifica la confezione prima degli scarichi reali.'
-    :confidence==='G'
-      ?'Numero stampato sulla confezione; EAN-13 non valido, codice da confermare.'
-    :confidence==='W'
-      ?'Corrispondenza da fonte web, da verificare sulla confezione.'
-    :confidence==='F'
-      ?'Barcode da foto della confezione.'
-    :confidence==='E'
-      ?'Codice presente nel foglio Excel, da verificare.'
-    :confidence==='Q'
-      ?'Riconosciuto tramite etichetta QR interna.'
-    :confidence==='LOCAL'
-      ?'Associazione salvata su questo iPad.'
-      :'';
+ $('productName').textContent=p.name;
 
-  controls();
+ $('barcodeText').textContent=
+  p.supplier+
+  ' · Codice articolo '+p.sku+
+  (barcode?' · Barcode '+barcode:'');
 
-  if(fromCamera){
-    setTimeout(()=>$('movePanel').scrollIntoView({
-      behavior:'smooth',
-      block:'start'
-    }),270);
-  }
+ $('origin').textContent=
+  confidence==='H'
+   ?'Associazione da catalogo storico: verifica la confezione prima degli scarichi reali.'
+  :confidence==='G'
+   ?'Numero stampato sulla confezione; EAN-13 non valido, codice da confermare.'
+  :confidence==='W'
+   ?'Corrispondenza da fonte web, da verificare sulla confezione.'
+  :confidence==='F'
+   ?'Barcode da foto della confezione.'
+  :confidence==='E'
+   ?'Codice presente nel foglio Excel, da verificare.'
+  :confidence==='Q'
+   ?'Riconosciuto tramite etichetta QR interna.'
+  :confidence==='LOCAL'
+   ?'Associazione salvata su questo iPad.'
+   :'';
+
+ controls();
+
+ if(fromCamera){
+  setTimeout(()=>{
+   $('movePanel').scrollIntoView({
+    behavior:'smooth',
+    block:'start'
+   });
+  },270);
+ }
 }
 
 async function found(raw,ep){
-  if(ep!==epoch)return;
+ if(ep!==epoch)return;
 
-  const code=String(raw||'').trim();
-  if(!code)return;
+ const code=String(raw||'').trim();
+ if(!code)return;
 
-  epoch++;
-  const match=getBarcode(code);
+ epoch++;
 
-  await stopCamera(false);
+ const match=getBarcode(code);
 
-  if(match){
-    displayProduct(
-      match.sku,
-      code,
-      match.confidence||match.stato||'LOCAL',
-      true
-    );
-    setStatus('✓ Prodotto riconosciuto. Seleziona quantità e movimento.','ok');
-  }else{
-    clearSelection();
-    selectedBarcode=code;
+ await stopCamera(false);
 
-    $('barcodeText').textContent='Codice letto: '+code;
-    $('productName').textContent='Prodotto non ancora associato';
-    $('origin').textContent=
-      'Per usarlo apri AGGIUNGI NUOVO PRODOTTO e scegli il prodotto dal catalogo.';
+ if(match){
+  displayProduct(
+   match.sku,
+   code,
+   match.confidence||match.stato||'LOCAL',
+   true
+  );
 
-    $('newBarcode').value=code;
-    $('newBox').open=true;
+  setStatus(
+   '✓ Prodotto riconosciuto. Seleziona quantità e movimento.',
+   'ok'
+  );
 
-    setStatus('Barcode letto, ma manca l’associazione al prodotto.','ok');
+ }else{
+  clearSelection();
+  selectedBarcode=code;
 
-    setTimeout(()=>$('newBox').scrollIntoView({
-      behavior:'smooth',
-      block:'start'
-    }),260);
-  }
+  $('barcodeText').textContent='Codice letto: '+code;
+
+  $('productName').textContent=
+   'Prodotto non ancora associato';
+
+  $('origin').textContent=
+   'Per usarlo apri AGGIUNGI NUOVO PRODOTTO e scegli il prodotto dal catalogo.';
+
+  $('newBarcode').value=code;
+  $('newBox').open=true;
+
+  setStatus(
+   'Barcode letto, ma manca l’associazione al prodotto.',
+   'ok'
+  );
+
+  setTimeout(()=>{
+   $('newBox').scrollIntoView({
+    behavior:'smooth',
+    block:'start'
+   });
+  },260);
+ }
 }
 
 function cameraConfig(high){
-  const c={
-    fps:high?12:10,
-    disableFlip:true,
-    qrbox:(w,h)=>({
-      width:Math.max(40,Math.min(w-2,Math.round(w*(high?.94:.87)))),
-      height:Math.max(40,Math.min(h-2,Math.round(h*(high?.62:.48))))
-    })
+ const c={
+  fps:high?12:10,
+  disableFlip:true,
+
+  qrbox:(w,h)=>({
+   width:Math.max(
+    40,
+    Math.min(w-2,Math.round(w*(high?.94:.87)))
+   ),
+
+   height:Math.max(
+    40,
+    Math.min(h-2,Math.round(h*(high?.62:.48)))
+   )
+  })
+ };
+
+ if(high){
+  c.videoConstraints={
+   facingMode:'environment',
+   width:{ideal:1920},
+   height:{ideal:1080}
   };
+ }
 
-  if(high){
-    c.videoConstraints={
-      facingMode:'environment',
-      width:{ideal:1920},
-      height:{ideal:1080}
-    };
-  }
-
-  return c;
+ return c;
 }
 
 async function openCamera(){
-  if(active||starting||stopping)return;
+ if(active||starting||stopping)return;
 
-  if(!window.isSecureContext){
-    setStatus('Apri il sito tramite HTTPS.','error');
-    return;
-  }
+ if(!window.isSecureContext){
+  setStatus('Apri il sito tramite HTTPS.','error');
+  return;
+ }
 
-  if(!navigator.mediaDevices?.getUserMedia){
-    setStatus('Fotocamera non disponibile in questo browser.','error');
-    return;
-  }
+ if(!navigator.mediaDevices?.getUserMedia){
+  setStatus(
+   'Fotocamera non disponibile in questo browser.',
+   'error'
+  );
+  return;
+ }
 
-  if(!scanReady()){
-    setStatus('Libreria scanner non caricata: controlla Internet.','error');
-    return;
-  }
+ if(!scanReady()){
+  setStatus(
+   'Libreria scanner non caricata: controlla Internet.',
+   'error'
+  );
+  return;
+ }
 
-  const my=++epoch;
-  clearSelection();
-  starting=true;
-  controls();
+ const my=++epoch;
 
-  setStatus('Apertura della fotocamera posteriore...');
+ clearSelection();
+ starting=true;
+ controls();
+
+ setStatus('Apertura della fotocamera posteriore...');
+
+ try{
+  scanner=new Html5Qrcode('reader',{
+   formatsToSupport:formats(),
+   verbose:false
+  });
 
   try{
-    scanner=new Html5Qrcode('reader',{
-      formatsToSupport:formats(),
-      verbose:false
-    });
+   await scanner.start(
+    {facingMode:'environment'},
+    cameraConfig(true),
+    b=>void found(b,my),
+    ()=>{}
+   );
 
-    try{
-      await scanner.start(
-        {facingMode:'environment'},
-        cameraConfig(true),
-        b=>void found(b,my),
-        ()=>{}
-      );
-    }catch(e){
-      try{scanner.clear();}catch(_){}
-
-      scanner=new Html5Qrcode('reader',{
-        formatsToSupport:formats(),
-        verbose:false
-      });
-
-      await scanner.start(
-        {facingMode:'environment'},
-        cameraConfig(false),
-        b=>void found(b,my),
-        ()=>{}
-      );
-    }
-
-    active=true;
-    setStatus(
-      'Fotocamera attiva · Inquadra il barcode (grande o piccolo).',
-      'ok'
-    );
   }catch(e){
-    active=false;
-    scanner=null;
-    setStatus(
-      'Fotocamera non avviata: '+(e.message||String(e)),
-      'error'
-    );
-  }finally{
-    starting=false;
-    controls();
+   try{
+    scanner.clear();
+   }catch(_){}
+
+   scanner=new Html5Qrcode('reader',{
+    formatsToSupport:formats(),
+    verbose:false
+   });
+
+   await scanner.start(
+    {facingMode:'environment'},
+    cameraConfig(false),
+    b=>void found(b,my),
+    ()=>{}
+   );
   }
 
-  if(active&&my!==epoch){
-    await stopCamera(false);
-    return;
-  }
+  active=true;
 
-  if(active)zoomTimer=setTimeout(()=>void tryZoom(my),7000);
+  setStatus(
+   'Fotocamera attiva · Inquadra il barcode (grande o piccolo).',
+   'ok'
+  );
+
+ }catch(e){
+  active=false;
+  scanner=null;
+
+  setStatus(
+   'Fotocamera non avviata: '+(e.message||String(e)),
+   'error'
+  );
+
+ }finally{
+  starting=false;
+  controls();
+ }
+
+ if(active&&my!==epoch){
+  await stopCamera(false);
+  return;
+ }
+
+ if(active){
+  zoomTimer=setTimeout(
+   ()=>void tryZoom(my),
+   7000
+  );
+ }
 }
 
 async function tryZoom(my){
-  if(!active||my!==epoch)return;
+ if(!active||my!==epoch)return;
 
-  try{
-    const video=$('reader').querySelector('video');
-    const track=video?.srcObject?.getVideoTracks?.()[0];
-    const cap=track?.getCapabilities?.();
+ try{
+  const video=$('reader').querySelector('video');
 
-    if(cap?.zoom&&cap.zoom.max>cap.zoom.min){
-      let goal=Math.max(
-        cap.zoom.min,
-        Math.min(cap.zoom.max,1.3)
-      );
+  const track=video?.srcObject?.getVideoTracks?.()[0];
+  const cap=track?.getCapabilities?.();
 
-      await track.applyConstraints({
-        advanced:[{zoom:goal}]
-      });
+  if(cap?.zoom&&cap.zoom.max>cap.zoom.min){
+   let goal=Math.max(
+    cap.zoom.min,
+    Math.min(cap.zoom.max,1.3)
+   );
 
-      setStatus(
-        'Scansione attiva · Avvicina lentamente il prodotto finché le barre sono nitide.',
-        'ok'
-      );
-    }
-  }catch(e){}
+   await track.applyConstraints({
+    advanced:[{zoom:goal}]
+   });
+
+   setStatus(
+    'Scansione attiva · Avvicina lentamente il prodotto finché le barre sono nitide.',
+    'ok'
+   );
+  }
+
+ }catch(e){}
 }
 
 async function stopCamera(announce=true){
-  if(stopping)return;
+ if(stopping)return;
 
-  const s=scanner;
+ const s=scanner;
 
-  if(!s){
-    active=false;
-    controls();
-    return;
-  }
-
-  stopping=true;
-  clearTimeout(zoomTimer);
-  zoomTimer=null;
-  controls();
-
-  try{
-    if(active||starting)await s.stop();
-  }catch(e){}
-
-  try{s.clear();}catch(e){}
-
-  scanner=null;
+ if(!s){
   active=false;
-  stopping=false;
   controls();
+  return;
+ }
 
-  if(announce)setStatus('Fotocamera fermata.');
+ stopping=true;
+
+ clearTimeout(zoomTimer);
+ zoomTimer=null;
+
+ controls();
+
+ try{
+  if(active||starting){
+   await s.stop();
+  }
+ }catch(e){}
+
+ try{
+  s.clear();
+ }catch(e){}
+
+ scanner=null;
+ active=false;
+ stopping=false;
+
+ controls();
+
+ if(announce){
+  setStatus('Fotocamera fermata.');
+ }
 }
 
+// MOVIMENTI DI PROVA
+
 function newId(){
-  if(window.crypto?.randomUUID)return crypto.randomUUID();
+ if(window.crypto?.randomUUID){
+  return crypto.randomUUID();
+ }
 
-  if(window.crypto?.getRandomValues){
-    const x=new Uint32Array(4);
-    crypto.getRandomValues(x);
-    return [...x].map(a=>a.toString(16)).join('-');
-  }
+ if(window.crypto?.getRandomValues){
+  const x=new Uint32Array(4);
+  crypto.getRandomValues(x);
 
-  return 'test-'+Date.now()+'-'+Math.random().toString(36).slice(2);
+  return [...x].map(
+   a=>a.toString(16)
+  ).join('-');
+ }
+
+ return 'test-'+Date.now()+'-'+
+  Math.random().toString(36).slice(2);
 }
 
 function qty(){
-  const v=$('quantity').value==='other'
-    ?Number($('customQuantity').value)
-    :Number($('quantity').value);
+ const v=$('quantity').value==='other'
+  ?Number($('customQuantity').value)
+  :Number($('quantity').value);
 
-  return Number.isSafeInteger(v)&&v>=1&&v<=999?v:null;
+ return Number.isSafeInteger(v)&&v>=1&&v<=999
+  ?v
+  :null;
 }
 
 function register(){
-  if(!armed||!selectedSku||!type||active)return;
+ if(
+  !armed||
+  !selectedSku||
+  !type||
+  active||
+  sending
+ )return;
 
-  const n=qty();
+ const n=qty();
 
-  if(!n){
-    alert('Scegli una quantità valida da 1 a 999 pezzi.');
-    return;
+ if(!n){
+  alert(
+   'Scegli una quantità valida da 1 a 999 pezzi.'
+  );
+  return;
+ }
+
+ const p=product(selectedSku);
+ if(!p)return;
+
+ if(BRIDGE_MODE&&!bridgeConnected){
+  alert(
+   'Il Ponte Google Fogli non è ancora collegato.'
+  );
+  return;
+ }
+
+ const description=
+  'MOVIMENTO SOLO TEST\n'+
+  p.name+'\n'+
+  type+' · '+n+' pezzi\n\n'+
+  'Nessuna giacenza verrà modificata. Confermi?';
+
+ if(!confirm(description))return;
+
+ if(BRIDGE_MODE){
+  const signature=JSON.stringify([
+   selectedSku,
+   type,
+   n,
+   selectedBarcode
+  ]);
+
+  if(
+   !pendingBridge||
+   pendingBridge.signature!==signature
+  ){
+   pendingBridge={
+    id:newId(),
+    signature
+   };
   }
 
-  const p=product(selectedSku);
-  if(!p)return;
-
-  if(!confirm(
-    'MOVIMENTO SOLO TEST\n'+
-    p.name+'\n'+
-    type+' · '+n+' pezzi\n\n'+
-    'Nessuna giacenza verrà modificata. Confermi?'
-  ))return;
-
-  const record={
-    id:newId(),
-    quando:new Date().toISOString(),
-    sku:p.sku,
-    prodotto:p.name,
-    fornitore:p.supplier,
-    barcode:selectedBarcode,
-    tipo:type,
-    quantita:n,
-    collaboratore:'',
-    esito:'SOLO TEST'
-  };
-
-  const next=tests.concat([record]).slice(-500);
-
-  if(!toStore(STORE.tests,next))return;
-
-  tests=next;
-  armed=false;
+  sending=true;
+  bridgeDisplay();
   controls();
 
-  $('last').textContent=
-    '✓ TEST registrato: '+type+' · '+n+' pezzi\n'+
-    p.name+'\n'+
-    'Nessuna giacenza modificata. Scansiona nuovamente per il prossimo movimento.';
-
-  setStatus('✓ Movimento di prova salvato su questo iPad.','ok');
-}
-
-function fillExisting(){
-  const q=$('linkSearch').value.trim().toLocaleLowerCase('it');
-  const cur=$('existing').value;
-
-  let ps=allProducts().filter(p=>
-    !q||(p.name+' '+p.supplier+' '+p.sku)
-      .toLocaleLowerCase('it').includes(q)
+  setStatus(
+   'Invio a SMART Scanner Test su Google Fogli...'
   );
 
-  const fragment=document.createDocumentFragment();
-  fragment.appendChild(new Option(
-    'Non è nell’elenco: creo un articolo nuovo',''
-  ));
+  try{
+   sendBridge({
+    codice:p.sku,
+    tipo:type,
+    quantita:n,
+    richiestaId:pendingBridge.id
+   });
 
-  ps.forEach(p=>fragment.appendChild(
-    new Option(p.supplier+' · '+p.name,p.sku)
-  ));
+   clearTimeout(bridgeTimeout);
 
-  $('existing').replaceChildren(fragment);
-  $('existing').value=ps.some(p=>p.sku===cur)?cur:'';
+   bridgeTimeout=setTimeout(()=>{
+    if(!sending)return;
 
-  toggleNew();
+    sending=false;
+
+    $('last').textContent=
+     'Nessuna risposta dal Ponte entro 30 secondi. NON è certo se il movimento sia stato salvato. Controlla SMART Scanner Test: se riprovi, useremo lo stesso ID per evitare una doppia registrazione.';
+
+    setStatus(
+     'Esito non confermato: verifica il foglio, poi riprova la stessa richiesta.',
+     'error'
+    );
+
+    controls();
+   },30000);
+
+  }catch(e){
+   sending=false;
+
+   setStatus(
+    'Invio non riuscito: '+e.message,
+    'error'
+   );
+
+   controls();
+  }
+
+  return;
+ }
+
+ const record={
+  id:newId(),
+  quando:new Date().toISOString(),
+  sku:p.sku,
+  prodotto:p.name,
+  fornitore:p.supplier,
+  barcode:selectedBarcode,
+  tipo:type,
+  quantita:n,
+  collaboratore:'',
+  esito:'SOLO TEST'
+ };
+
+ const next=tests.concat([record]).slice(-500);
+
+ if(!toStore(STORE.tests,next))return;
+
+ tests=next;
+ armed=false;
+
+ controls();
+
+ $('last').textContent=
+  '✓ TEST LOCALE: '+type+
+  ' · '+n+' pezzi\n'+
+  p.name+
+  '\nNon inviato a Google Fogli. Giacenza invariata.';
+
+ setStatus(
+  '✓ Movimento di prova salvato solo su questo iPad.',
+  'ok'
+ );
+}
+
+// AGGIUNGI NUOVO PRODOTTO
+
+function fillExisting(){
+ const q=$('linkSearch').value
+  .trim()
+  .toLocaleLowerCase('it');
+
+ const cur=$('existing').value;
+
+ let ps=allProducts().filter(p=>
+  !q||
+  (p.name+' '+p.supplier+' '+p.sku)
+   .toLocaleLowerCase('it')
+   .includes(q)
+ );
+
+ const fragment=document.createDocumentFragment();
+
+ fragment.appendChild(
+  new Option(
+   'Non è nell’elenco: creo un articolo nuovo',
+   ''
+  )
+ );
+
+ ps.forEach(p=>{
+  fragment.appendChild(
+   new Option(
+    p.supplier+' · '+p.name,
+    p.sku
+   )
+  );
+ });
+
+ $('existing').replaceChildren(fragment);
+
+ $('existing').value=ps.some(
+  p=>p.sku===cur
+ )?cur:'';
+
+ toggleNew();
 }
 
 function toggleNew(){
-  $('newFields').classList.toggle('hidden',!!$('existing').value);
+ $('newFields').classList.toggle(
+  'hidden',
+  !!$('existing').value
+ );
 }
 
 function genQR(sku,name){
-  currentQR='RS|'+sku;
+ currentQR='RS|'+sku;
 
-  $('qrBox').classList.remove('hidden');
-  $('qrTitle').textContent=name+' · '+sku;
-  $('qrCode').replaceChildren();
+ $('qrBox').classList.remove('hidden');
+ $('qrTitle').textContent=name+' · '+sku;
+ $('qrCode').replaceChildren();
 
-  if(typeof QRCode==='undefined'){
-    $('qrCode').textContent=
-      'Codice: '+currentQR+' (generatore QR non caricato)';
-    $('qrPrint').disabled=true;
-    return;
-  }
+ if(typeof QRCode==='undefined'){
+  $('qrCode').textContent=
+   'Codice: '+currentQR+
+   ' (generatore QR non caricato)';
 
-  $('qrPrint').disabled=false;
+  $('qrPrint').disabled=true;
+  return;
+ }
 
-  new QRCode($('qrCode'),{
-    text:currentQR,
-    width:186,
-    height:186,
-    colorDark:'#000000',
-    colorLight:'#ffffff',
-    correctLevel:QRCode.CorrectLevel.M
-  });
+ $('qrPrint').disabled=false;
+
+ new QRCode($('qrCode'),{
+  text:currentQR,
+  width:186,
+  height:186,
+  colorDark:'#000000',
+  colorLight:'#ffffff',
+  correctLevel:QRCode.CorrectLevel.M
+ });
 }
 
 function saveNew(){
-  if(active||starting||stopping)return;
+ if(active||starting||stopping||sending)return;
 
-  const code=$('newBarcode').value.trim();
-  const existing=$('existing').value;
+ const code=$('newBarcode').value.trim();
+ const existing=$('existing').value;
 
-  if(code&&!/^[A-Za-z0-9|_-]{4,55}$/.test(code)){
-    alert('Il barcode deve contenere da 4 a 55 caratteri senza spazi.');
-    return;
+ if(
+  code&&
+  !/^[A-Za-z0-9|_-]{4,55}$/.test(code)
+ ){
+  alert(
+   'Il barcode deve contenere da 4 a 55 caratteri senza spazi.'
+  );
+  return;
+ }
+
+ let p=product(existing);
+
+ if(!p){
+  const name=$('newName').value.trim();
+
+  if(name.length<3){
+   alert(
+    'Scrivi il nome completo del nuovo prodotto.'
+   );
+   return;
   }
 
-  let p=product(existing);
+  const supplier=$('newSupplier').value;
+  const sku='LOCALE-'+newId();
 
-  if(!p){
-    const name=$('newName').value.trim();
+  p={
+   sku,
+   name,
+   supplier,
+   temp:true
+  };
 
-    if(name.length<3){
-      alert('Scrivi il nome completo del nuovo prodotto.');
-      return;
-    }
+  const next=extra.concat([p]);
 
-    const supplier=$('newSupplier').value;
-    const sku='LOCALE-'+newId();
+  if(!toStore(STORE.products,next))return;
 
-    p={sku,name,supplier,temp:true};
+  extra=next;
+ }
 
-    const next=extra.concat([p]);
+ if(code){
+  const prior=getBarcode(code);
 
-    if(!toStore(STORE.products,next))return;
-    extra=next;
-  }
+  if(
+   prior&&
+   prior.sku!==p.sku&&
+   !confirm(
+    'Questo barcode è già associato a un altro prodotto. Correggere l’associazione solo su questo iPad?'
+   )
+  )return;
 
-  if(code){
-    const prior=getBarcode(code);
+  const copy={
+   ...learned,
+   [code]:{
+    sku:p.sku,
+    confidence:'LOCAL',
+    stato:'ASSOCIAZIONE LOCALE'
+   }
+  };
 
-    if(prior&&prior.sku!==p.sku&&!confirm(
-      'Questo barcode è già associato a un altro prodotto. Correggere l’associazione solo su questo iPad?'
-    ))return;
+  if(!toStore(STORE.associations,copy))return;
 
-    const copy={
-      ...learned,
-      [code]:{
-        sku:p.sku,
-        confidence:'LOCAL',
-        stato:'ASSOCIAZIONE LOCALE'
-      }
-    };
+  learned=copy;
+ }
 
-    if(!toStore(STORE.associations,copy))return;
+ displayProduct(
+  p.sku,
+  code,
+  code?'LOCAL':'Q'
+ );
 
-    learned=copy;
-  }
+ $('addStatus').textContent=
+  '✓ Prodotto pronto. L’associazione è stata salvata solo su questo iPad. Per le confezioni difficili puoi usare l’etichetta QR.';
 
-  displayProduct(p.sku,code,code?'LOCAL':'Q');
+ genQR(p.sku,p.name);
 
-  $('addStatus').textContent=
-    '✓ Prodotto pronto. L’associazione è stata salvata solo su questo iPad. Per le confezioni difficili puoi usare l’etichetta QR.';
+ $('newBarcode').value='';
+ $('newName').value='';
+ $('linkSearch').value='';
+ $('existing').value='';
 
-  genQR(p.sku,p.name);
-
-  $('newBarcode').value='';
-  $('newName').value='';
-  $('linkSearch').value='';
-  $('existing').value='';
-
-  toggleNew();
+ toggleNew();
 }
 
-$('cameraButton').addEventListener('click',()=>
-  active?void stopCamera(true):void openCamera()
+// PULSANTI ED EVENTI
+
+$('cameraButton').addEventListener('click',()=>{
+ if(active){
+  void stopCamera(true);
+ }else{
+  void openCamera();
+ }
+});
+
+$('sold').addEventListener(
+ 'click',
+ ()=>chooseType('VENDUTO')
 );
 
-$('sold').addEventListener('click',()=>chooseType('VENDUTO'));
-$('used').addEventListener('click',()=>chooseType('CONSUMATO'));
-$('gift').addEventListener('click',()=>chooseType('OMAGGIO'));
-$('register').addEventListener('click',register);
+$('used').addEventListener(
+ 'click',
+ ()=>chooseType('CONSUMATO')
+);
+
+$('gift').addEventListener(
+ 'click',
+ ()=>chooseType('OMAGGIO')
+);
+
+$('register').addEventListener(
+ 'click',
+ register
+);
 
 $('quantity').addEventListener('change',()=>{
-  $('customQuantity').classList.toggle(
-    'hidden',
-    $('quantity').value!=='other'
-  );
+ $('customQuantity').classList.toggle(
+  'hidden',
+  $('quantity').value!=='other'
+ );
 
-  if($('quantity').value==='other'){
-    $('customQuantity').focus();
-  }
+ if($('quantity').value==='other'){
+  $('customQuantity').focus();
+ }
 });
 
-$('linkSearch').addEventListener('input',fillExisting);
-$('existing').addEventListener('change',toggleNew);
-$('saveProduct').addEventListener('click',saveNew);
-$('qrPrint').addEventListener('click',()=>window.print());
+$('linkSearch').addEventListener(
+ 'input',
+ fillExisting
+);
+
+$('existing').addEventListener(
+ 'change',
+ toggleNew
+);
+
+$('saveProduct').addEventListener(
+ 'click',
+ saveNew
+);
+
+$('qrPrint').addEventListener(
+ 'click',
+ ()=>window.print()
+);
 
 document.addEventListener('visibilitychange',()=>{
-  if(document.hidden&&active)void stopCamera(false);
+ if(document.hidden&&active){
+  void stopCamera(false);
+ }
 });
 
+// QUANTITÀ A TENDINA
+
 for(let i=1;i<=50;i++){
-  $('quantity').add(
-    new Option(i+' pezzo'+(i>1?'i':''),String(i))
-  );
+ $('quantity').add(
+  new Option(
+   i+' pezzo'+(i>1?'i':''),
+   String(i)
+  )
+ );
 }
-$('quantity').add(new Option('Altra quantità…','other'));
+
+$('quantity').add(
+ new Option('Altra quantità…','other')
+);
+
+// AVVIO
 
 fillExisting();
 controls();
 
+if(BRIDGE_MODE){
+ helloBridge();
+ setTimeout(helloBridge,1200);
+ setTimeout(helloBridge,3500);
+ setTimeout(helloBridge,6500);
+}
+
 setStatus(
-  scanReady()
-    ?'Scanner pronto. Premi SCANSIONA PRODOTTO.'
-    :'La libreria barcode non è caricata. Verifica la connessione.',
-  scanReady()?'ok':'error'
+ scanReady()
+  ?'Scanner pronto. Premi SCANSIONA PRODOTTO.'
+  :'La libreria barcode non è caricata. Verifica la connessione.',
+ scanReady()?'ok':'error'
 );
+
 </script>
 </body>
 </html>
